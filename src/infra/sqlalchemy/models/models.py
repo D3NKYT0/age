@@ -11,6 +11,7 @@ class Produto(Base):
     detalhes = Column(String)
     preco = Column(Float)
     disponivel = Column(Boolean)
+    
     usuario_id = Column(Integer, ForeignKey('usuario.id', name="fk_usuario"))
     usuario = relationship('Usuario', back_populates='produtos')
 
@@ -22,7 +23,9 @@ class Usuario(Base):
     nome = Column(String)
     senha = Column(String)
     telefone = Column(String)
+
     produtos = relationship('Produto', back_populates='usuario')
+    meus_pedidos = relationship('Pedido', back_populates='usuario')
 
 
 class Pedido(Base):
@@ -37,5 +40,5 @@ class Pedido(Base):
     produto_id = Column(Integer, ForeignKey('produto.id', name="fk_pedido_produto"))
     usuario_id = Column(Integer, ForeignKey('usuario.id', name="fk_pedido_usuario"))
 
-    produtos = relationship('Produto', back_populates='usuario')
-    usuario = relationship('Produto', back_populates='usuario')
+    produtos = relationship('Produto')
+    usuario = relationship('Usuario', back_populates='usuario')

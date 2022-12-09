@@ -1,5 +1,4 @@
-from fastapi import APIRouter
-from fastapi import Depends, status
+from fastapi import Depends, status, APIRouter
 
 from sqlalchemy.orm import Session
 from typing import List
