@@ -9,6 +9,11 @@ class RepositorioProduto():
     def __init__(self, db: Session):
         self.db = db
 
+    def buscarPorId(self, id: int):
+        query = select(models.Produto).where(models.Produto.id == id)
+        produto = self.db.execute(query).first()
+        return produto
+
     def criar(self, produto: schemas_produtos.Produto):
 
         # conversao do schema em model
