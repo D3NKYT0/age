@@ -46,17 +46,22 @@ alembic upgrade head
 **Núcleo de Programação**
 
 - Denky#9370 (Daniel Amaral)
-- ?
-- ?
+- Renan Nere
+
+**Infraestrutura**
+
+- Ailton Junior
+- Renan Nere 
 
 **Designers e Ilustradores**
 
-- ?
-- ?
-- ?
+- George Uamirin
 
 **Scripts da IA**
 
 - Denky#9370 (Daniel Amaral)
-- ?
+ 
+ **Superintedencia**
+
+ - Vinicius Amelotti
  
