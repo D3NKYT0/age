@@ -12,7 +12,7 @@ from src.infra.sqlalchemy.config.database import get_db, criar_db
 
 
 # version
-__version__ = "0.0.4.2"
+__version__ = "0.0.5.1"
 
 
 # criação do banco de dados (so acontece uma vez)
