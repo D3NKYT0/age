@@ -5,10 +5,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.infra.sqlalchemy.config.database import criar_db
 from src.routers import produtos as router_produtos
 from src.routers import usuarios as router_usuarios
+from src.routers import pedidos as router_pedidos
 
 
 # version
-__version__ = "0.0.5.1"
+__version__ = "0.0.6.1"
 
 
 # criação do banco de dados (so acontece uma vez)
@@ -37,4 +38,5 @@ app.add_middleware(
 
 # Router
 app.include_router(router_produtos.router)
-app.include_router(router_usuarios.router)
+app.include_router(router_usuarios.router, prefix='/auth')
+app.include_router(router_pedidos.router)

@@ -30,6 +30,11 @@ class RepositorioUsuario():
         usuarios = self.db.query(models.Usuario).all()
         return usuarios
 
+    def get_by_phone(self, phone: str):
+        statement = select(models.Usuario).filter_by(telefone=phone)
+        usuario = self.db.execute(statement).first()
+        return usuario.Usuario if usuario is not None else None
+
     def obter(self, usuario_id: int):
         statement = select(models.Usuario).filter_by(id=usuario_id)
         usuario = self.db.execute(statement).first()
