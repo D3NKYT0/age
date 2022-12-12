@@ -3,3 +3,4 @@ sqlalchemy
 uvicorn
 alembic
 passlib[bcrypt]
+python-jose[cryptography]

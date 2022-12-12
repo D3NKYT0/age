@@ -12,7 +12,7 @@ from src.infra.providers import hash_provider as hp
 router = APIRouter()
 
 
-@router.post('/signup', status_code=status.HTTP_201_CREATED, response_model=schemas_usuarios.Usuario)
+@router.post('/auth/signup', status_code=status.HTTP_201_CREATED, response_model=schemas_usuarios.Usuario)
 def criar_usuario(usuario: schemas_usuarios.Usuario, db: Session = Depends(get_db)):
     user = RepositorioUsuario(db).get_by_phone(usuario.telefone)
 
@@ -22,6 +22,24 @@ def criar_usuario(usuario: schemas_usuarios.Usuario, db: Session = Depends(get_d
     usuario.senha = hp.gerar_hash(usuario.senha)
     produto_criado = RepositorioUsuario(db).criar(usuario)
     return produto_criado
+
+@router.post('/token')
+def login(login_data: schemas_usuarios.LoginData, db: Session = Depends(get_db)):
+    senha = login_data.senha
+    telefone = login_data.telefone
+
+    user = RepositorioUsuario(db).get_by_phone(telefone)
+
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='o telefone ou senha estao incorretos')
+
+    senha_valida = hp.verificar_hash(senha, user.senha)
+
+    if not senha_valida:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='o telefone ou senha estao incorretos')
+
+    # gerar JWT
+    return user
 
 @router.get('/usuarios', status_code=status.HTTP_200_OK, response_model=list[schemas_usuarios.Usuario])
 def listar_usuarios(db: Session = Depends(get_db)):

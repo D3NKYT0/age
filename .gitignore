@@ -1,5 +1,6 @@
 # AGE ignore
 alembic/*
+auth/*
 src/infra/sqlalchemy/config/*
 app_age.db
 alembic.ini

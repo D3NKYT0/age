@@ -38,5 +38,5 @@ app.add_middleware(
 
 # Router
 app.include_router(router_produtos.router)
-app.include_router(router_usuarios.router, prefix='/auth')
+app.include_router(router_usuarios.router)
 app.include_router(router_pedidos.router)

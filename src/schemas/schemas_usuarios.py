@@ -23,3 +23,11 @@ class UsuarioSimples(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class LoginData(BaseModel):
+    telefone: str
+    senha: str
+
+    class Config:
+        orm_mode = True
