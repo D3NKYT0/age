@@ -1,10 +1,9 @@
-
+from auth import jose as auth
 
 
 def generate_access_token(data: dict):
-    return ''
-
+    return auth.cat(data=data)
 
 
 def verify_access_token(token: str):
-    return ''
+    return auth.vat(token)

@@ -38,7 +38,7 @@ class RepositorioUsuario():
     def obter(self, usuario_id: int):
         statement = select(models.Usuario).filter_by(id=usuario_id)
         usuario = self.db.execute(statement).first()
-        return usuario.Usuario if usuario is not None else {"nome": "Usuario nao encontrado", "telefone": "", "senha": ""}
+        return usuario.Usuario if usuario is not None else None
 
     def remover(self, usuario_id: int):
         statement = select(models.Usuario).filter_by(id=usuario_id)
@@ -47,4 +47,4 @@ class RepositorioUsuario():
         statement = delete(models.Usuario).where(models.Usuario.id == usuario_id)
         self.db.execute(statement)
         self.db.commit()
-        return usuario.Usuario if usuario is not None else {"nome": "Usuario nao encontrado", "telefone": "", "senha": ""}
+        return usuario.Usuario if usuario is not None else None

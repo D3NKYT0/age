@@ -29,5 +29,7 @@ class LoginData(BaseModel):
     telefone: str
     senha: str
 
-    class Config:
-        orm_mode = True
+
+class LoginSucesso(BaseModel):
+    usuario: UsuarioSimples
+    access_token: str
