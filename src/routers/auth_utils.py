@@ -1,3 +1,5 @@
+import json
+
 from jose import JWTError
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer
@@ -8,7 +10,11 @@ from src.infra.sqlalchemy.config.database import get_db
 from src.infra.providers import token_provider
 
 
-oauth2_schema = OAuth2PasswordBearer(tokenUrl='token')
+with open("auth/data/auth.json", encoding="utf-8") as auth_data:
+    _auth_data = json.load(auth_data)
+
+
+oauth2_schema = OAuth2PasswordBearer(tokenUrl=_auth_data['tokenUrl'])
 token_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Token Invalido')
 
 
