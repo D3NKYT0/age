@@ -1,6 +1,6 @@
 import os
 
-from fastapi import FastAPI
+from fastapi import FastAPI, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from src.infra.sqlalchemy.config.database import criar_db
 
@@ -10,6 +10,8 @@ from src.routers import pedidos as router_pedidos
 
 from starlette.middleware.base import BaseHTTPMiddleware
 from src.middlewares import timer as md_timer
+
+from src.jobs import write_notification
 
 
 # version
@@ -51,3 +53,9 @@ app.add_middleware(
 app.include_router(router_produtos.router)
 app.include_router(router_usuarios.router)
 app.include_router(router_pedidos.router)
+
+
+@app.post('/send_email')
+def send_email(email: str, background: BackgroundTasks):
+    background.add_task(write_notification.write, email, 'a vida é bela')
+    return {"msg": 'mensagem enviada'}

@@ -1,8 +1,8 @@
-# Conecta AGE [0.1.5](https://i.imgur.com/F1sAWiC.png)
+# ConectaAGE [0.1.5](https://i.imgur.com/F1sAWiC.png)
 
 <img align="right" height="256" src="https://i.imgur.com/4w9RndL.png"/>
 
-A Conecta AGE é uma api "de exemplo" em desenvolvimento (atualmente) para AGE afim de intercomunicar as aplicações WEB com o servidor interno.
+A ConectaAGE é uma api em desenvolvimento (atualmente) para AGE-PE afim de intercomunicar suas aplicações WEB/MOBILE com a agencia.
 
 O projeto utiliza os frameworks FastAPI/SQLAlchemy/Alembic para seu núcleo de programação (demais requerimentos disponiveis no repositorio)
 
