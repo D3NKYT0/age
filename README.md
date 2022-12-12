@@ -2,13 +2,13 @@
 
 <img align="right" height="256" src="https://i.imgur.com/4w9RndL.png"/>
 
-A D'Api é uma api de exemplo de estrutura interna em desenvolvimento (atualmente) para AGE afim de intercomunicar as aplicações WEB com o servidor interno.
+A Conecta AGE é uma api "de exemplo" em desenvolvimento (atualmente) para AGE afim de intercomunicar as aplicações WEB com o servidor interno.
 
-O projeto utiliza o framework FastAPI/SQLAlchemy/Alembic para seu núcleo de programação (requerimentos disponiveis no repositorio)
+O projeto utiliza os frameworks FastAPI/SQLAlchemy/Alembic para seu núcleo de programação (demais requerimentos disponiveis no repositorio)
 
 FastAPI é uma estrutura da Web moderna, rápida (de alto desempenho) para criar APIs com Python 3.7+ com base em dicas de tipo Python padrão.
 
-SQLAlchemy é o kit de ferramentas Python SQL e Object Relational Mapper que oferece aos desenvolvedores de aplicativos todo o poder e flexibilidade do SQL.
+SQLAlchemy é o kit de ferramentas Python SQL e Object Relational Mapper (ORM) que oferece aos desenvolvedores de aplicativos todo o poder e flexibilidade do SQL.
 
 Alembic é uma ferramenta leve de migração de banco de dados para uso com o SQLAlchemy Database Toolkit for Python.
 
