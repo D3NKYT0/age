@@ -19,7 +19,6 @@ class UsuarioSimples(BaseModel):
     id: Optional[int] = None
     nome: str
     telefone: str
-    senha: str
 
     class Config:
         orm_mode = True

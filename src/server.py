@@ -3,9 +3,13 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.infra.sqlalchemy.config.database import criar_db
+
 from src.routers import produtos as router_produtos
 from src.routers import usuarios as router_usuarios
 from src.routers import pedidos as router_pedidos
+
+from starlette.middleware.base import BaseHTTPMiddleware
+from src.middlewares import timer as md_timer
 
 
 # version
@@ -33,6 +37,13 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
+)
+
+
+# MIDDLEWARES CUSTOM
+app.add_middleware(
+    BaseHTTPMiddleware,
+    dispatch=md_timer.add_process_time_header
 )
 
 
