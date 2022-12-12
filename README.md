@@ -2,7 +2,7 @@
 
 <img align="right" height="256" src="https://i.imgur.com/4w9RndL.png"/>
 
-A D'Api é uma api de exemplo de extrutura interna em desenvolvimento (atualmente) para AGE afim de intercomunicar as aplicações WEB com o servidor interno.
+A D'Api é uma api de exemplo de estrutura interna em desenvolvimento (atualmente) para AGE afim de intercomunicar as aplicações WEB com o servidor interno.
 
 O projeto utiliza o framework FastAPI/SQLAlchemy/Alembic para seu núcleo de programação (requerimentos disponiveis no repositorio)
 
