@@ -1,6 +1,6 @@
 # ConectaAGE [0.1.5](https://i.imgur.com/F1sAWiC.png)
 
-<img align="right" height="256" src="https://i.imgur.com/4w9RndL.png"/>
+<img align="right" height="256" src="https://i.imgur.com/buvNhRO.png"/>
 
 A ConectaAGE é uma api em desenvolvimento (atualmente) para AGE-PE afim de intercomunicar suas aplicações WEB/MOBILE com a agencia.
 
@@ -16,7 +16,7 @@ Alembic é uma ferramenta leve de migração de banco de dados para uso com o SQ
 [![GitHub license](https://img.shields.io/github/license/D3NKYT0/age.svg)](https://github.com/D3NKYT0/age/blob/master/LICENSE)
 [![Supported Python versions](https://img.shields.io/pypi/pyversions/fastapi.svg)](#Installation)
 <p align="center">
-<img height="384" src="https://i.imgur.com/F1sAWiC.png">
+<img height="384" src="https://i.imgur.com/BUH70nr.png">
 </p>
 
 
