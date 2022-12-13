@@ -16,7 +16,7 @@ Alembic é uma ferramenta leve de migração de banco de dados para uso com o SQ
 [![GitHub license](https://img.shields.io/github/license/D3NKYT0/age.svg)](https://github.com/D3NKYT0/age/blob/master/LICENSE)
 [![Supported Python versions](https://img.shields.io/pypi/pyversions/fastapi.svg)](#Installation)
 <p align="center">
-<img height="280" src="https://i.imgur.com/BUH70nr.png">
+<img height="280" src="https://i.imgur.com/jv0Bmy3.png">
 </p>
 
 

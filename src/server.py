@@ -15,7 +15,7 @@ from src.jobs import write_notification
 
 
 # version
-__version__ = "0.0.6.1"
+__version__ = "0.0.7.1"
 __postgressql__ = True
 
 # criação do banco de dados (so acontece uma vez)
