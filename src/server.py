@@ -16,10 +16,10 @@ from src.jobs import write_notification
 
 # version
 __version__ = "0.0.6.1"
-
+__postgressql__ = True
 
 # criação do banco de dados (so acontece uma vez)
-if not os.path.exists("app_age.db"):
+if not os.path.exists("app_age.db") and not __postgressql__:
     criar_db()
 
 # criação do aplicativo principal da API (age)

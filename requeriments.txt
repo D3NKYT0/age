@@ -4,3 +4,4 @@ uvicorn
 alembic
 passlib[bcrypt]
 python-jose[cryptography]
+psycopg2
