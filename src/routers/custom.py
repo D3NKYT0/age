@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from src.schemas import schemas_custom
 from src.infra.sqlalchemy.config.database import get_db
 from src.jobs import cog
+from src.email.smtp import send_email
 
 
 router = APIRouter()
@@ -12,5 +13,5 @@ router = APIRouter()
 
 @router.post('/email', status_code=status.HTTP_202_ACCEPTED, response_model=schemas_custom.Email)
 def enviar_email(email_data: schemas_custom.Email, background: BackgroundTasks):
-    background.add_task(cog.send_email_task, email_data.conteudo, email_data.assunto, email_data.email_destino)
+    background.add_task(cog.send_email_task, email_data)
     return email_data
