@@ -35,6 +35,13 @@ alembic upgrade head
 ```
 
 
+## Como testar (temporario)
+
+```bash
+http://192.168.0.100:8000/docs
+```
+
+
 ## Sobre Mim
 >Programador da AGE de Pernambuco - Daniel Amaral (29 Anos) Recife/PE
 - Email: danielamaral.f@age.pe.gov.br

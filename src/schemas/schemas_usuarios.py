@@ -4,6 +4,15 @@ from typing import Optional, List
 from src.schemas.schemas_produtos import ProdutoSimples
 
 
+class UsuarioNovo(BaseModel):
+    nome: str
+    telefone: str
+    senha: str
+
+    class Config:
+        orm_mode = True
+
+
 class Usuario(BaseModel):
     id: Optional[int] = None
     nome: str

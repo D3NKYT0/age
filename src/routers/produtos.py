@@ -12,7 +12,7 @@ from src.infra.sqlalchemy.config.database import get_db
 router = APIRouter()
 
 
-@router.get('/produtos/{id}')
+@router.get('/produtos/{id}', tags=["produtos"])
 def exibir_produto(id: int, db: Session = Depends(get_db)):
     produto_localizado = RepositorioProduto(db).buscarPorId(id)
 
@@ -21,23 +21,23 @@ def exibir_produto(id: int, db: Session = Depends(get_db)):
 
     return produto_localizado
 
-@router.post('/produtos', status_code=status.HTTP_201_CREATED, response_model=schemas_produtos.ProdutoSimples)
+@router.post('/produtos', status_code=status.HTTP_201_CREATED, response_model=schemas_produtos.ProdutoSimples, tags=["produtos"])
 def criar_produto(produto: schemas_produtos.Produto, db: Session = Depends(get_db)):
     produto_criado = RepositorioProduto(db).criar(produto)
     return produto_criado
 
-@router.put('/produtos/{id}', status_code=status.HTTP_200_OK, response_model=schemas_produtos.ProdutoSimples)
+@router.put('/produtos/{id}', status_code=status.HTTP_200_OK, response_model=schemas_produtos.ProdutoSimples, tags=["produtos"])
 def atualizar_produto(id: int, produto: schemas_produtos.Produto, db: Session = Depends(get_db)):
     produto_atualizado = RepositorioProduto(db).editar(id, produto)
     produto_atualizado.id = id
     return produto_atualizado
 
-@router.get('/produtos', status_code=status.HTTP_200_OK, response_model=list[schemas_produtos.ProdutoSimples])
+@router.get('/produtos', status_code=status.HTTP_200_OK, response_model=list[schemas_produtos.ProdutoSimples], tags=["produtos"])
 def listar_produtos(db: Session = Depends(get_db)):
     produtos = RepositorioProduto(db).listar()
     return produtos
 
-@router.get('/produtos/{produto_id}', status_code=status.HTTP_200_OK, response_model=schemas_produtos.ProdutoRetorno)
+@router.get('/produtos/{produto_id}', status_code=status.HTTP_200_OK, response_model=schemas_produtos.ProdutoRetorno, tags=["produtos"])
 def obter_produto(produto_id: int, db: Session = Depends(get_db)):
     produto = RepositorioProduto(db).obter(produto_id)
     try:
@@ -56,7 +56,7 @@ def obter_produto(produto_id: int, db: Session = Depends(get_db)):
         retorno['usuario'] = {"nome": "Usuario nao encontrado", "telefone": "", "senha": ""}
     return retorno
 
-@router.delete('/produtos/{produto_id}', status_code=status.HTTP_200_OK, response_model=schemas_produtos.ProdutoSimples)
+@router.delete('/produtos/{produto_id}', status_code=status.HTTP_200_OK, response_model=schemas_produtos.ProdutoSimples, tags=["produtos"])
 def remover_produto(produto_id: int, db: Session = Depends(get_db)):
     produto = RepositorioProduto(db).remover(produto_id)
     return produto

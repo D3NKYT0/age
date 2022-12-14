@@ -11,7 +11,7 @@ from src.email.smtp import send_email
 router = APIRouter()
 
 
-@router.post('/email', status_code=status.HTTP_202_ACCEPTED, response_model=schemas_custom.Email)
+@router.post('/email', status_code=status.HTTP_202_ACCEPTED, response_model=schemas_custom.Email, tags=["email"])
 def enviar_email(email_data: schemas_custom.Email, background: BackgroundTasks):
     background.add_task(cog.send_email_task, email_data)
     return email_data
