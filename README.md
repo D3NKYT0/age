@@ -23,7 +23,7 @@ Alembic é uma ferramenta leve de migração de banco de dados para uso com o SQ
 ## Como iniciar
 
 ```bash
-uvicorn src.server:app --reload --reload-dir=src
+uvicorn src.server:app --reload --reload-dir=src --host 0.0.0.0
 ```
 
 
