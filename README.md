@@ -27,7 +27,7 @@ uvicorn src.server:app --reload --reload-dir=src --host 0.0.0.0
 ```
 
 
-## Como versionar o banco de dados (sqllite)
+## Como versionar o banco de dados (PostgreSQL)
 
 ```bash
 alembic revision --autogenerate -m "foo"
