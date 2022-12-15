@@ -4,8 +4,8 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from src.schemas import schemas_produtos
-from src.infra.sqlalchemy.repositorios.produto import RepositorioProduto
-from src.infra.sqlalchemy.repositorios.usuario import RepositorioUsuario
+from src.infra.sqlalchemy.repository.produto import RepositorioProduto
+from src.infra.sqlalchemy.repository.usuario import RepositorioUsuario
 from src.infra.sqlalchemy.config.database import get_db
 
 

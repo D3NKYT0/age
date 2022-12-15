@@ -1,1 +1,0 @@
-from src.infra.sqlalchemy.repositorios import *

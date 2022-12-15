@@ -34,8 +34,11 @@ alembic revision --autogenerate -m "foo"
 alembic upgrade head
 ```
 
+## Estrutura do banco de dados
 
-## Como testar (temporario)
+<img height="300" src="https://i.imgur.com/he4JtDN.png">
+
+## Como testar (temporario / localhost)
 
 ```bash
 http://192.168.0.100:8000/docs

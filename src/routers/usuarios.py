@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from src.schemas import schemas_usuarios
-from src.infra.sqlalchemy.repositorios.usuario import RepositorioUsuario
+from src.infra.sqlalchemy.repository.usuario import RepositorioUsuario
 from src.routers.auth_utils import get_user_logged
 from src.infra.sqlalchemy.config.database import get_db
 from src.infra.providers import hash_provider as hp

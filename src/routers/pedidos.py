@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from src.schemas import schemas_pedidos
-from src.infra.sqlalchemy.repositorios.pedido import RepositorioPedido
+from src.infra.sqlalchemy.repository.pedido import RepositorioPedido
 from src.infra.sqlalchemy.config.database import get_db
 
 

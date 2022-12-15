@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends, status, HTTPException
 
-from src.infra.sqlalchemy.repositorios.usuario import RepositorioUsuario
+from src.infra.sqlalchemy.repository.usuario import RepositorioUsuario
 from src.infra.sqlalchemy.config.database import get_db
 from src.infra.providers import token_provider
 
