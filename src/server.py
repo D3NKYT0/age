@@ -19,7 +19,7 @@ from src.resources.rate_limit import default_callback as limiter_default_callbac
 
 
 # CONFIGS
-__version__ = "0.0.8.1"
+__version__ = "0.0.9.1"
 __postgressql__ = True
 __title__ = "Conecta Age"
 __terms_of_service__ = "https://github.com/D3NKYT0/age/blob/master/LICENSE"
