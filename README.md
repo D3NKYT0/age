@@ -36,7 +36,7 @@ alembic upgrade head
 
 ## Estrutura do banco de dados
 
-<img align="center" height="300" src="https://i.imgur.com/he4JtDN.png">
+<img height="500" src="https://i.imgur.com/he4JtDN.png">
 
 ## Como testar (temporario / localhost)
 
