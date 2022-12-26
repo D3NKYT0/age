@@ -16,13 +16,12 @@ from src.middlewares import timer as md_timer
 import redis.asyncio as redis
 from fastapi_limiter import FastAPILimiter
 from src.resources.rate_limit import default_callback as limiter_default_callback
+from src.data import default
 
 
 # CONFIGS
-__version__ = "0.0.9.1"
+__version__ = "0.0.10.1"
 __postgressql__ = True
-__title__ = "Conecta Age"
-__terms_of_service__ = "https://github.com/D3NKYT0/age/blob/master/LICENSE"
 
 
 with open("auth/data/auth.json", encoding="utf-8") as auth_data:
@@ -34,69 +33,15 @@ if not os.path.exists("app_age.db") and not __postgressql__:
     criar_db()
 
 
-__description__ = """
-A ConectaAGE é uma api em desenvolvimento (atualmente) para AGE-PE afim de intercomunicar suas aplicações WEB/MOBILE com a agencia. 🚀
-
-## Items
-
-You can **read items**.
-
-## Users
-
-You will be able to:
-
-* **Create users** (_not implemented_).
-* **Read users** (_not implemented_).
-"""
-
-__tags_metadata__ = [
-    {
-        "name": "usuarios",
-        "description": "Operations with users. The **login** logic is also here.",
-    },
-    {
-        "name": "produtos",
-        "description": "Operations with users. The **login** logic is also here.",
-    },
-    {
-        "name": "pedidos",
-        "description": "Operations with users. The **login** logic is also here.",
-    },
-    {
-        "name": "email",
-        "description": "Operations with users. The **login** logic is also here.",
-    },
-    {
-        "name": "auth",
-        "description": "Manage items. So _fancy_ they have their own docs.",
-        "externalDocs": {
-            "description": "external docs",
-            "url": "https://fastapi.tiangolo.com/",
-        },
-    },
-]
-
-__contact__ = {
-        "name": "Daniel Amaral",
-        "url": "https://github.com/D3NKYT0",
-        "email": "danielamaral.f@age.pe.gov.br",
-    }
-
-__license_info__ = {
-        "name": "Apache 2.0",
-        "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
-    }
-
-
 # criação do aplicativo principal da API (age)
 app = FastAPI(
-    title=__title__,
-    description=__description__,
+    title=default.__title__,
+    description=default.__description__,
     version=__version__,
-    terms_of_service=__terms_of_service__,
-    contact=__contact__,
-    license_info=__license_info__,
-    openapi_tags=__tags_metadata__
+    terms_of_service=default.__terms_of_service__,
+    contact=default.__contact__,
+    license_info=default.__license_info__,
+    openapi_tags=default.__tags_metadata__
 )
 
 
@@ -111,16 +56,10 @@ async def shutdown():
     await FastAPILimiter.close()
 
 
-# origins
-origins = [
-    'http://localhost:3000'  # teste local
-]
-
-
 # CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=default.origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
