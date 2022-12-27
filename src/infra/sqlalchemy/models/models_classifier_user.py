@@ -7,6 +7,6 @@ class ClassifierClient(Base):
     __tablename__ = df.__prefixo__ + "classifier_client"
     id = Column(Integer, primary_key=True, index=True)
     description = Column(String)
-    authorization_id = Column(Integer, ForeignKey('authorization.id', name="fk_authorization"))
+    authorization_id = Column(Integer, ForeignKey(df.__prefixo__ + 'authorization.id', name="fk_authorization"))
 
 # OK
