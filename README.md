@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # ConectaAGE [0.0.11.3](http://192.168.0.100:8000/docs)
+=======
+# ConectaAGE [0.0.11.2](http://192.168.0.100:8000/docs)
+>>>>>>> 9e95bab146c2d091aabef43d1c28418a235f067c
 
 <img align="right" height="180" src="https://i.imgur.com/buvNhRO.png"/>
 
