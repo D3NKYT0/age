@@ -8,5 +8,8 @@ class Email(BaseModel):
     assunto: str
     conteudo: str
 
+
+
+
     class Config:
         orm_mode = True
