@@ -1,4 +1,4 @@
-# ConectaAGE [0.0.10.1](http://192.168.0.100:8000/docs)
+# ConectaAGE [0.0.11.1](http://192.168.0.100:8000/docs)
 
 <img align="right" height="180" src="https://i.imgur.com/buvNhRO.png"/>
 

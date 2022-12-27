@@ -1,16 +1,19 @@
-from sqlalchemy import Column, Integer, String, Float, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, DATETIME
 from sqlalchemy.orm import relationship
 from src.infra.sqlalchemy.config.database import Base
+from src.data import default as df
 
 
-class Cliente(Base):
-    __tablename__ = "produto"
-
+class SuperUser(Base):
+    __tablename__ = df.__prefixo__ + "super_user"
     id = Column(Integer, primary_key=True, index=True)
-    nome = Column(String)
-    detalhes = Column(String)
-    preco = Column(Float)
-    disponivel = Column(Boolean)
-    
-    usuario_id = Column(Integer, ForeignKey('usuario.id', name="fk_usuario"))
-    usuario = relationship('Usuario', back_populates='produtos')
+    create_at = Column(DATETIME)
+    name = Column(String)
+    login = Column(String)
+    password = Column(String)
+    email = Column(String)
+    classified_as = Column(Integer)
+    solicitations = relationship('Solicitation', back_populates='solicitation')
+    logs = relationship('SuperLog', back_populates='super_log')
+
+# OK
