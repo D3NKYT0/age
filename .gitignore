@@ -4,6 +4,7 @@ auth/*
 src/infra/sqlalchemy/config/*
 app_age.db
 alembic.ini
+.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
