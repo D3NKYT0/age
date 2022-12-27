@@ -7,6 +7,7 @@ class Email(BaseModel):
     email_destino: str
     assunto: str
     conteudo: str
+    n: Optional[int] = None
 
     class Config:
         orm_mode = True
