@@ -1,0 +1,10 @@
+fastapi
+sqlalchemy
+uvicorn
+alembic
+passlib[bcrypt]
+python-jose[cryptography]
+psycopg2
+fastapi-limiter
+email-validator
+pytest
