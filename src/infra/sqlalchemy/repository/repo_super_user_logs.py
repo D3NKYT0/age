@@ -18,17 +18,17 @@ class RepositoryUser():
     def register(self, log: schemas_super_user_logs.SuperUserLogs):
 
         # conversao do schema em model
-        db_user = models_super_user_logs.SuperLog(
+        db_log = models_super_user_logs.SuperLog(
             description = log.description,
-            create_at = log.create_at,
+            create_at = log.create_at
         )
 
         # operações no banco de dados
-        self.db.add(db_user)
+        self.db.add(db_log)
         self.db.commit()
-        self.db.refresh(db_user)
+        self.db.refresh(db_log)
 
-        return db_user
+        return db_log
 
     def edit(self, log_id: int, log: schemas_super_user_logs.SuperUserLogs):
             update_statement = update(models_super_user_logs.SuperLog).where(
@@ -41,16 +41,16 @@ class RepositoryUser():
             self.db.commit()
             return log
 
-    def show_all_users(self):
-        users = self.db.query(schemas_users.User).all()
-        return users
+    def show_all_logs(self):
+        logs = self.db.query(schemas_super_user_logs.SuperUserLogs).all()
+        return logs
 
-    def remove(self, user_id: int):
-        statement = select(schemas_users.User).filter_by(id=user_id)
-        user = self.db.execute(statement).first()
+    def remove(self, log_id: int):
+        statement = select(schemas_super_user_logs.SuperUserLogs).filter_by(id=log_id)
+        log = self.db.execute(statement).first()
 
-        statement = delete(schemas_users.User).where(schemas_users.User.id == user_id)
+        statement = delete(schemas_super_user_logs.SuperUserLogs).where(schemas_super_user_logs.SuperUserLogs.id == log_id)
         self.db.execute(statement)
         self.db.commit()
 
-        return user
+        return log
