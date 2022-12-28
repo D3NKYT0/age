@@ -15,7 +15,7 @@ class RepositoryAlternative():
         alternative = self.db.execute(query).first()
         return alternative
 
-    def register(self, alternative: schemas_alternative.Alternative):
+    def register_alternative(self, alternative: schemas_alternative.Alternative):
 
         # conversao do schema em model
         db_user = models_alternative.Alternative(
@@ -33,31 +33,29 @@ class RepositoryAlternative():
 
         return db_user
 
-    def edit(self, user_id: int, user: schemas_users.User):
-            update_statement = update(models_user.User).where(
-                models_user.User.id == user_id
+    def edit_alternative(self, alternative_id: int, alternative: schemas_alternative.Alternative):
+            update_statement = update(models_alternative.Alternative).where(
+                models_alternative.Alternative.id == alternative_id
             ).values(
-                name = user.name,
-                login = user.login,
-                password = user.password,
-                email = user.email,
-                classified_as = user.classified_as
+                description = alternative.description,
+                weight = alternative.weight,
+                is_available = alternative.is_available,
             )
 
             self.db.execute(update_statement)
             self.db.commit()
-            return user
+            return alternative
 
-    def show_all_alternative(self):
-        users = self.db.query(schemas_users.User).all()
-        return users
+    def show_all_alternatives(self):
+        alternative = self.db.query(schemas_alternative.Alternative).all()
+        return alternative
 
-    def remove_alternative(self, user_id: int):
-        statement = select(schemas_users.User).filter_by(id=user_id)
-        user = self.db.execute(statement).first()
+    def remove_alternative(self, alternative_id: int):
+        statement = select(schemas_alternative.Alternative).filter_by(id=alternative_id)
+        alternative = self.db.execute(statement).first()
 
-        statement = delete(schemas_users.User).where(schemas_users.User.id == user_id)
+        statement = delete(schemas_alternative.Alternative).where(schemas_alternative.Alternative.id == alternative_id)
         self.db.execute(statement)
         self.db.commit()
 
-        return user
+        return alternative

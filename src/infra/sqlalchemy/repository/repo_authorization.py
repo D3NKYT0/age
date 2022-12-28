@@ -1,30 +1,25 @@
 from sqlalchemy import select, delete, update
 from sqlalchemy.orm import Session
 
-from src.schemas import schemas_users
-from src.infra.sqlalchemy.models import models_user
+from src.schemas import schemas_authorization
+from src.infra.sqlalchemy.models import models_authorization
 
 
-class RepositoryUser():
+class RepositoryAuthorization():
     
     def __init__(self, db: Session):
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_users.User).where(schemas_users.User.id == id)
-        user = self.db.execute(query).first()
-        return user
+        query = select(schemas_authorization.Authorization).where(schemas_authorization.Authorization.id == id)
+        authorization = self.db.execute(query).first()
+        return authorization
 
-    def register(self, user: schemas_users.User):
+    def register_authorization(self, authorization: schemas_authorization.Authorization):
 
         # conversao do schema em model
-        db_user = models_user.User(
-            name = user.name,
-            create_at = user.create_at,
-            login = user.login,
-            password = user.password,
-            email = user.email,
-            classified_as = user.classified_as
+        db_user = models_authorization.Authorization(
+            description = authorization.description,
         )
 
         # operações no banco de dados
@@ -34,31 +29,27 @@ class RepositoryUser():
 
         return db_user
 
-    def edit(self, user_id: int, user: schemas_users.User):
-            update_statement = update(models_user.User).where(
-                models_user.User.id == user_id
+    def edit_authorization(self, authorization_id: int, authorization: schemas_authorization.Authorization):
+            update_statement = update(models_authorization.Authorization).where(
+                models_authorization.Authorization.id == authorization_id
             ).values(
-                name = user.name,
-                login = user.login,
-                password = user.password,
-                email = user.email,
-                classified_as = user.classified_as
+                description = authorization.description,
             )
 
             self.db.execute(update_statement)
             self.db.commit()
-            return user
+            return authorization
 
-    def show_all_users(self):
-        users = self.db.query(schemas_users.User).all()
-        return users
+    def show_all_authorization(self):
+        authorization = self.db.query(schemas_authorization.Authorization).all()
+        return authorization
 
-    def remove(self, user_id: int):
-        statement = select(schemas_users.User).filter_by(id=user_id)
-        user = self.db.execute(statement).first()
+    def remove_authorization(self, authorization_id: int):
+        statement = select(schemas_authorization.Authorization).filter_by(id=authorization_id)
+        authorization = self.db.execute(statement).first()
 
-        statement = delete(schemas_users.User).where(schemas_users.User.id == user_id)
+        statement = delete(schemas_authorization.Authorization).where(schemas_authorization.Authorization.id == authorization_id)
         self.db.execute(statement)
         self.db.commit()
 
-        return user
+        return authorization
