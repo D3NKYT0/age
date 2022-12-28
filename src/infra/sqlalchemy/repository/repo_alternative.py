@@ -1,30 +1,29 @@
 from sqlalchemy import select, delete, update
 from sqlalchemy.orm import Session
 
-from src.schemas import schemas_users
-from src.infra.sqlalchemy.models import models_user
+from src.schemas import schemas_alternative
+from src.infra.sqlalchemy.models import models_alternative
 
 
-class RepositoryUser():
+class RepositoryAlternative():
     
     def __init__(self, db: Session):
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_users.User).where(schemas_users.User.id == id)
-        user = self.db.execute(query).first()
-        return user
+        query = select(schemas_alternative.Alternative).where(schemas_alternative.Alternative.id == id)
+        alternative = self.db.execute(query).first()
+        return alternative
 
-    def register(self, user: schemas_users.User):
+    def register(self, alternative: schemas_alternative.Alternative):
 
         # conversao do schema em model
-        db_user = models_user.User(
-            name = user.name,
-            create_at = user.create_at,
-            login = user.login,
-            password = user.password,
-            email = user.email,
-            classified_as = user.classified_as
+        db_user = models_alternative.Alternative(
+            id = alternative.id,
+            description = alternative.description,
+            weight = alternative.weight,
+            is_available = alternative.is_available,
+            create_at = alternative.create_at,
         )
 
         # operações no banco de dados
@@ -49,11 +48,11 @@ class RepositoryUser():
             self.db.commit()
             return user
 
-    def show_all_users(self):
+    def show_all_alternative(self):
         users = self.db.query(schemas_users.User).all()
         return users
 
-    def remove(self, user_id: int):
+    def remove_alternative(self, user_id: int):
         statement = select(schemas_users.User).filter_by(id=user_id)
         user = self.db.execute(statement).first()
 
