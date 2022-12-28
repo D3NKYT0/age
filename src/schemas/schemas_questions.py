@@ -7,6 +7,7 @@ class Question(BaseModel):
     create_at: str
     is_available: bool
     is_alternative: bool
+    lse_id: int
 
     class Config:
         orm_mode = True

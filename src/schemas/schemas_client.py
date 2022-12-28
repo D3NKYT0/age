@@ -17,6 +17,9 @@ class Client(BaseModel):
     line_of_credit: str
     line_of_business = str
     start_of_business = str
+    status_id: int
+    lse_id: int
+    user_id: int
 
     class Config:
         orm_mode = True
