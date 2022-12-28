@@ -1,64 +1,56 @@
 from sqlalchemy import select, delete, update
 from sqlalchemy.orm import Session
 
-from src.schemas import schemas_users
-from src.infra.sqlalchemy.models import models_user
+from src.schemas import schemas_logs
+from src.infra.sqlalchemy.models import models_logs
 
 
-class RepositoryUser():
+class RepositoryLogs():
     
     def __init__(self, db: Session):
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_users.User).where(schemas_users.User.id == id)
-        user = self.db.execute(query).first()
-        return user
+        query = select(schemas_logs.Logs).where(schemas_logs.Logs.id == id)
+        log = self.db.execute(query).first()
+        return log
 
-    def register(self, user: schemas_users.User):
+    def register(self, log: schemas_logs.Logs):
 
         # conversao do schema em model
-        db_user = models_user.User(
-            name = user.name,
-            create_at = user.create_at,
-            login = user.login,
-            password = user.password,
-            email = user.email,
-            classified_as = user.classified_as
+        db_log = models_logs.Log(
+            description = log.description,
+            create_at = log.create_at
         )
 
         # operações no banco de dados
-        self.db.add(db_user)
+        self.db.add(db_log)
         self.db.commit()
-        self.db.refresh(db_user)
+        self.db.refresh(db_log)
 
-        return db_user
+        return db_log
 
-    def edit(self, user_id: int, user: schemas_users.User):
-            update_statement = update(models_user.User).where(
-                models_user.User.id == user_id
+    def edit(self, log_id: int, log: schemas_logs.Logs):
+            update_statement = update(models_logs.Log).where(
+                models_logs.Log.id == log_id
             ).values(
-                name = user.name,
-                login = user.login,
-                password = user.password,
-                email = user.email,
-                classified_as = user.classified_as
+                description = log.description,
             )
 
             self.db.execute(update_statement)
             self.db.commit()
-            return user
+            return log
 
-    def show_all_users(self):
-        users = self.db.query(schemas_users.User).all()
-        return users
+    def show_all_logs(self):
+        logs = self.db.query(schemas_logs.Logs).all()
+        return logs
 
-    def remove(self, user_id: int):
-        statement = select(schemas_users.User).filter_by(id=user_id)
-        user = self.db.execute(statement).first()
+    def remove(self, log_id: int):
+        statement = select(schemas_logs.Logs).filter_by(id=log_id)
+        log = self.db.execute(statement).first()
 
-        statement = delete(schemas_users.User).where(schemas_users.User.id == user_id)
+        statement = delete(schemas_logs.Logs).where(schemas_logs.Logs.id == log_id)
         self.db.execute(statement)
         self.db.commit()
 
-        return user
+        return log
