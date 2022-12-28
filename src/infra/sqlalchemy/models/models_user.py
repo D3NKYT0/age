@@ -12,7 +12,7 @@ class User(Base):
     login = Column(String)
     password = Column(String)
     email = Column(String)
-    classified_as = Column(Integer, ForeignKey(df.__prefixo__ + 'classifier_client.id', name="fk_classifier_client"))
+    classified_as = Column(Integer, ForeignKey(df.__prefixo__ + 'classifier_user.id', name="fk_classifier_user"))
     clients = relationship('Client', back_populates=df.__prefixo__ + 'client')
     solicitations = relationship('Solicitation', back_populates=df.__prefixo__ + 'solicitation')
     logs = relationship('Log', back_populates=df.__prefixo__ + 'log')
