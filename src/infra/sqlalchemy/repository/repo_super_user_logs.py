@@ -5,7 +5,7 @@ from src.schemas import schemas_super_user_logs
 from src.infra.sqlalchemy.models import models_super_user_logs
 
 
-class RepositoryUser():
+class RepositorySuperUserLogs():
     
     def __init__(self, db: Session):
         self.db = db

@@ -1,64 +1,56 @@
 from sqlalchemy import select, delete, update
 from sqlalchemy.orm import Session
 
-from src.schemas import schemas_users
-from src.infra.sqlalchemy.models import models_user
+from src.schemas import schemas_solicitation
+from src.infra.sqlalchemy.models import models_solicitation
 
 
-class RepositoryUser():
+class RepositorySolicitation():
     
     def __init__(self, db: Session):
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_users.User).where(schemas_users.User.id == id)
-        user = self.db.execute(query).first()
-        return user
+        query = select(schemas_solicitation.Solicitation).where(schemas_solicitation.Solicitation.id == id)
+        solicitation = self.db.execute(query).first()
+        return solicitation
 
-    def register(self, user: schemas_users.User):
+    def register(self, solicitation: schemas_solicitation.Solicitation):
 
         # conversao do schema em model
-        db_user = models_user.User(
-            name = user.name,
-            create_at = user.create_at,
-            login = user.login,
-            password = user.password,
-            email = user.email,
-            classified_as = user.classified_as
+        db_solicitation = models_solicitation.Solicitation(
+            description = solicitation.description,
+            create_at = solicitation.create_at
         )
 
         # operações no banco de dados
-        self.db.add(db_user)
+        self.db.add(db_solicitation)
         self.db.commit()
-        self.db.refresh(db_user)
+        self.db.refresh(db_solicitation)
 
-        return db_user
+        return db_solicitation
 
-    def edit(self, user_id: int, user: schemas_users.User):
-            update_statement = update(models_user.User).where(
-                models_user.User.id == user_id
+    def edit(self, solicitation_id: int, solicitation: schemas_solicitation.Solicitation):
+            update_statement = update(models_solicitation.Solicitation).where(
+                models_solicitation.Solicitation.id == solicitation_id
             ).values(
-                name = user.name,
-                login = user.login,
-                password = user.password,
-                email = user.email,
-                classified_as = user.classified_as
+                description = solicitation.description
             )
 
             self.db.execute(update_statement)
             self.db.commit()
-            return user
+            return solicitation
 
-    def show_all_users(self):
-        users = self.db.query(schemas_users.User).all()
-        return users
+    def show_all_solicitations(self):
+        solicitations = self.db.query(schemas_solicitation.Solicitation).all()
+        return solicitations
 
-    def remove(self, user_id: int):
-        statement = select(schemas_users.User).filter_by(id=user_id)
-        user = self.db.execute(statement).first()
+    def remove(self, solicitation_id: int):
+        statement = select(schemas_solicitation.Solicitation).filter_by(id=solicitation_id)
+        solicitation = self.db.execute(statement).first()
 
-        statement = delete(schemas_users.User).where(schemas_users.User.id == user_id)
+        statement = delete(schemas_solicitation.Solicitation).where(schemas_solicitation.Solicitation.id == solicitation_id)
         self.db.execute(statement)
         self.db.commit()
 
-        return user
+        return solicitation
