@@ -1,64 +1,60 @@
 from sqlalchemy import select, delete, update
 from sqlalchemy.orm import Session
 
-from src.schemas import schemas_users
-from src.infra.sqlalchemy.models import models_user
+from src.schemas import schemas_response
+from src.infra.sqlalchemy.models import models_response
 
 
-class RepositoryUser():
+class RepositoryResponse():
     
     def __init__(self, db: Session):
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_users.User).where(schemas_users.User.id == id)
-        user = self.db.execute(query).first()
-        return user
+        query = select(schemas_response.Response).where(schemas_response.Response.id == id)
+        response = self.db.execute(query).first()
+        return response
 
-    def register(self, user: schemas_users.User):
+    def register(self, response: schemas_response.Response):
 
         # conversao do schema em model
-        db_user = models_user.User(
-            name = user.name,
-            create_at = user.create_at,
-            login = user.login,
-            password = user.password,
-            email = user.email,
-            classified_as = user.classified_as
+        db_response = models_response.Response(
+            description = response.description,
+            create_at = response.create_at,
+            question_id = response.question_id,
+            client_id = response.client_id
         )
 
         # operações no banco de dados
-        self.db.add(db_user)
+        self.db.add(db_response)
         self.db.commit()
-        self.db.refresh(db_user)
+        self.db.refresh(db_response)
 
-        return db_user
+        return db_response
 
-    def edit(self, user_id: int, user: schemas_users.User):
-            update_statement = update(models_user.User).where(
-                models_user.User.id == user_id
+    def edit(self, response_id: int, response: schemas_response.Response):
+            update_statement = update(models_response.Response).where(
+                models_response.Response.id == response_id
             ).values(
-                name = user.name,
-                login = user.login,
-                password = user.password,
-                email = user.email,
-                classified_as = user.classified_as
+            description = response.description,
+            question_id = response.question_id,
+            client_id = response.client_id
             )
 
             self.db.execute(update_statement)
             self.db.commit()
-            return user
+            return response
 
-    def show_all_users(self):
-        users = self.db.query(schemas_users.User).all()
-        return users
+    def show_all_responses(self):
+        responses = self.db.query(schemas_response.Response).all()
+        return responses
 
-    def remove(self, user_id: int):
-        statement = select(schemas_users.User).filter_by(id=user_id)
-        user = self.db.execute(statement).first()
+    def remove(self, response_id: int):
+        statement = select(schemas_response.Response).filter_by(id=response_id)
+        response = self.db.execute(statement).first()
 
-        statement = delete(schemas_users.User).where(schemas_users.User.id == user_id)
+        statement = delete(schemas_response.Response).where(schemas_response.Response.id == response_id)
         self.db.execute(statement)
         self.db.commit()
 
-        return user
+        return response
