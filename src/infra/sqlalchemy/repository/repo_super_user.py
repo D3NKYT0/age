@@ -1,24 +1,24 @@
 from sqlalchemy import select, delete, update
 from sqlalchemy.orm import Session
 
-from src.schemas import schemas_users
-from src.infra.sqlalchemy.models import models_user
+from src.schemas import schemas_super_user
+from src.infra.sqlalchemy.models import models_super_user
 
 
-class RepositoryUser():
+class RepositorySuperUser():
     
     def __init__(self, db: Session):
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_users.User).where(schemas_users.User.id == id)
+        query = select(schemas_super_user.SuperUser).where(schemas_super_user.SuperUser.id == id)
         user = self.db.execute(query).first()
         return user
 
-    def register(self, user: schemas_users.User):
+    def register(self, user: schemas_super_user.SuperUser):
 
         # conversao do schema em model
-        db_user = models_user.User(
+        db_user = models_super_user.SuperUser(
             name = user.name,
             create_at = user.create_at,
             login = user.login,
@@ -34,9 +34,9 @@ class RepositoryUser():
 
         return db_user
 
-    def edit(self, user_id: int, user: schemas_users.User):
-            update_statement = update(models_user.User).where(
-                models_user.User.id == user_id
+    def edit(self, user_id: int, user: schemas_super_user.SuperUser):
+            update_statement = update(models_super_user.SuperUser).where(
+                models_super_user.SuperUser.id == user_id
             ).values(
                 name = user.name,
                 login = user.login,
@@ -50,14 +50,14 @@ class RepositoryUser():
             return user
 
     def show_all_users(self):
-        users = self.db.query(schemas_users.User).all()
+        users = self.db.query(schemas_super_user.SuperUser).all()
         return users
 
     def remove(self, user_id: int):
-        statement = select(schemas_users.User).filter_by(id=user_id)
+        statement = select(schemas_super_user.SuperUser).filter_by(id=user_id)
         user = self.db.execute(statement).first()
 
-        statement = delete(schemas_users.User).where(schemas_users.User.id == user_id)
+        statement = delete(schemas_super_user.SuperUser).where(schemas_super_user.SuperUser.id == user_id)
         self.db.execute(statement)
         self.db.commit()
 
