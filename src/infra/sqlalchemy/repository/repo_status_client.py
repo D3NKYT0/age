@@ -1,64 +1,56 @@
 from sqlalchemy import select, delete, update
 from sqlalchemy.orm import Session
 
-from src.schemas import schemas_users
-from src.infra.sqlalchemy.models import models_user
+from src.schemas import schemas_status_client
+from src.infra.sqlalchemy.models import models_status_client
 
 
-class RepositoryUser():
+class RepositoryStatusClient():
     
     def __init__(self, db: Session):
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_users.User).where(schemas_users.User.id == id)
-        user = self.db.execute(query).first()
-        return user
+        query = select(schemas_status_client.StatusClient).where(schemas_status_client.Client.id == id)
+        status = self.db.execute(query).first()
+        return status
 
-    def register(self, user: schemas_users.User):
+    def register(self, client: schemas_status_client.StatusClient):
 
         # conversao do schema em model
-        db_user = models_user.User(
-            name = user.name,
-            create_at = user.create_at,
-            login = user.login,
-            password = user.password,
-            email = user.email,
-            classified_as = user.classified_as
+        db_status = models_status_client.StatusClient(
+            description = client.description,
+            create_at = client.create_at
         )
 
         # operações no banco de dados
-        self.db.add(db_user)
+        self.db.add(db_status)
         self.db.commit()
-        self.db.refresh(db_user)
+        self.db.refresh(db_status)
 
-        return db_user
+        return db_status
 
-    def edit(self, user_id: int, user: schemas_users.User):
-            update_statement = update(models_user.User).where(
-                models_user.User.id == user_id
+    def edit(self, status_id: int, status: schemas_status_client.StatusClient):
+            update_statement = update(models_status_client.StatusClient).where(
+                models_status_client.StatusClient.id == status_id
             ).values(
-                name = user.name,
-                login = user.login,
-                password = user.password,
-                email = user.email,
-                classified_as = user.classified_as
+                description = status.description
             )
 
             self.db.execute(update_statement)
             self.db.commit()
-            return user
+            return status
 
-    def show_all_users(self):
-        users = self.db.query(schemas_users.User).all()
-        return users
+    def show_all_status(self):
+        status = self.db.query(schemas_status_client.StatusClient).all()
+        return status
 
-    def remove(self, user_id: int):
-        statement = select(schemas_users.User).filter_by(id=user_id)
-        user = self.db.execute(statement).first()
+    def remove(self, status_id: int):
+        statement = select(schemas_status_client.StatusClient).filter_by(id=status_id)
+        status = self.db.execute(statement).first()
 
-        statement = delete(schemas_users.User).where(schemas_users.User.id == user_id)
+        statement = delete(schemas_status_client.StatusClient).where(schemas_status_client.StatusClient.id == status_id)
         self.db.execute(statement)
         self.db.commit()
 
-        return user
+        return status
