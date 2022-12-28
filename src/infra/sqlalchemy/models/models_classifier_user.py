@@ -3,8 +3,8 @@ from src.infra.sqlalchemy.config.database import Base
 from src.data import default as df
 
 
-class ClassifierClient(Base):
-    __tablename__ = df.__prefixo__ + "classifier_client"
+class ClassifierUser(Base):
+    __tablename__ = df.__prefixo__ + "classifier_user"
     id = Column(Integer, primary_key=True, index=True)
     description = Column(String)
     create_at = Column(TIMESTAMP)
