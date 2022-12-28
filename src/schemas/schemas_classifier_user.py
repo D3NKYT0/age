@@ -4,6 +4,8 @@ from typing import Optional
 class ClassifierUser(BaseModel):
     id: Optional[int] = None
     description: str
+    create_at: str
+    authorization_id: int
 
     class Config:
         orm_mode = True

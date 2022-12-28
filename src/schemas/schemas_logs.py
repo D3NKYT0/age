@@ -4,6 +4,7 @@ from typing import Optional
 class Logs(BaseModel):
     id: Optional[int] = None
     description: str
+    creat_at: str
 
     class Config:
         orm_mode = True

@@ -7,6 +7,7 @@ class Alternative(BaseModel):
     weight: float
     is_available: bool
     create_at: str
+    question_id: int
 
     class Config:
         orm_mode = True
