@@ -4,7 +4,7 @@ from typing import Optional
 class Question(BaseModel):
     id: Optional[int] = None
     description: str
-    create_at: str
+    create_at: Optional[str]
     is_available: bool
     is_alternative: bool
     lse_id: int

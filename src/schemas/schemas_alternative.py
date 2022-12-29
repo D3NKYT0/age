@@ -6,7 +6,7 @@ class Alternative(BaseModel):
     description: str
     weight: float
     is_available: bool
-    create_at: str
+    create_at: Optional[str]
     question_id: int
 
     class Config:

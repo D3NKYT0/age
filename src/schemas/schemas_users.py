@@ -4,7 +4,7 @@ from typing import Optional
 
 class User(BaseModel):
     id: Optional[int] = None
-    create_at: str
+    create_at: Optional[str]
     name: str
     login: str
     password: str
@@ -17,7 +17,7 @@ class User(BaseModel):
 
 class SimpleUser(BaseModel):
     id: Optional[int] = None
-    create_at: str
+    create_at: Optional[str]
     name: str
 
     class Config:

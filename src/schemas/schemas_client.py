@@ -4,7 +4,7 @@ from typing import Optional
 
 class Client(BaseModel):
     id: Optional[int] = None
-    create_at: str
+    create_at: Optional[str]
     birth_date: str
     name: str
     cep: str

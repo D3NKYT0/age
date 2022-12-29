@@ -3,7 +3,7 @@ from typing import Optional
 
 class SuperUser(BaseModel):
     id: Optional[int] = None
-    create_at: str
+    create_at: Optional[str]
     name: str
     login: str
     password: str
