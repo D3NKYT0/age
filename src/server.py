@@ -72,5 +72,5 @@ app.add_middleware(
 
 
 # Router
-app.include_router(router_auth.router)
-app.include_router(super_router.router)
+app.include_router(router_auth.router, prefix='/auth')
+app.include_router(super_router.router, prefix='/ti')

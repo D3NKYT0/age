@@ -16,8 +16,8 @@ from src.infra.sqlalchemy.repository.repo_user import RepositoryUser
 router = APIRouter()
 
 
-@router.post('/auth/signup', status_code=status.HTTP_201_CREATED, response_model=schemas_users.User, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["auth"])
-def criar_usuario(user: schemas_users.User, db: Session = Depends(get_db)):
+@router.post('/signup', status_code=status.HTTP_201_CREATED, response_model=schemas_users.User, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["auth"])
+def create_user(user: schemas_users.User, db: Session = Depends(get_db)):
     data_user = RepositoryUser(db).searchByLogin(user.login)
 
     if data_user:
@@ -44,6 +44,3 @@ def login(login_data: schemas_auth.LoginData, db: Session = Depends(get_db)):
     token = tp.generate_access_token({'sub': user.login})
     return schemas_auth.LoginSuccess(user=user, access_token=token)
 
-@router.get('/me', status_code=status.HTTP_200_OK, response_model=schemas_users.SimpleUser, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["auth"])
-def me(user: schemas_users.User = Depends(get_user_logged)):
-    return user
