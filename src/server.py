@@ -5,10 +5,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.infra.sqlalchemy.config.database import criar_db
 
-from src.routers import produtos as router_produtos
-from src.routers import usuarios as router_usuarios
-from src.routers import pedidos as router_pedidos
-from src.routers import custom as router_custom
+from src.routers import router_auth
+from src.routers import super_router
 
 from starlette.middleware.base import BaseHTTPMiddleware
 from src.middlewares import timer as md_timer
@@ -74,7 +72,5 @@ app.add_middleware(
 
 
 # Router
-app.include_router(router_produtos.router)
-app.include_router(router_usuarios.router)
-app.include_router(router_pedidos.router)
-app.include_router(router_custom.router)
+app.include_router(router_auth.router)
+app.include_router(super_router.router)

@@ -21,14 +21,14 @@ _mail = _auth_data['SMTP_MAIL']
 _context = ssl.create_default_context()
 
 
-def send_email(message: str, subject: str, to_email: str):
+def send_email(content: str, subject: str, destination_email: str):
 
     # Criando mensagem
     email_msg = MIMEMultipart()
     email_msg['From'] = _mail
-    email_msg['To'] = to_email
+    email_msg['To'] = destination_email
     email_msg['Subject'] = subject
-    email_msg.attach(MIMEText(message, 'plain'))
+    email_msg.attach(MIMEText(content, 'plain'))
 
     with smtplib.SMTP(_host, _port) as server:
         server.ehlo()

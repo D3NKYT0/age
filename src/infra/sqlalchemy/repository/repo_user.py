@@ -15,6 +15,11 @@ class RepositoryUser():
         user = self.db.execute(query).first()
         return user
 
+    def searchByLogin(self, login: str):
+        query = select(schemas_users.User).where(schemas_users.User.login == login)
+        user = self.db.execute(query).first()
+        return user
+
     def register(self, user: schemas_users.User):
 
         # conversao do schema em model
