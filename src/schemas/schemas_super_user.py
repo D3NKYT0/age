@@ -8,7 +8,7 @@ class SuperUser(BaseModel):
     login: str
     password: str
     email: str
-    classified_as: int
+    classified_as: Optional[int] = 1
     
 
     class Config:
