@@ -9,37 +9,27 @@ A ConectaAGE é uma api em desenvolvimento (atualmente) para AGE-PE afim de inte
 
 ## Caracteristicas
 
- - Você pode **cadastrar clientes**.
- - Você pode **cadastrar clientes**.
- - Você pode **cadastrar clientes**.
- - Você pode **cadastrar clientes**.
- - Você pode **cadastrar clientes**.
- - Você pode **cadastrar clientes**.
+ - Você pode **em breve...**.
 
 ## Recursos
 
 Você será habilitado à:
 
-* **Criar Usuarios** (_não implementado_).
-* **Ler Usuarios** (_não implementado_).
+* **Em Breve...** (_não implementado_).
 """
 
 __tags_metadata__ = [
     {
-        "name": "usuarios",
-        "description": "Operações com usuários. Necessário **login** para acessar esses recursos.",
+        "name": "users",
+        "description": "Operações com Usuarios. Necessário **login** para acessar esses recursos.",
     },
     {
-        "name": "produtos",
-        "description": "Operações com produtos. Necessário **login** para acessar esses recursos.",
+        "name": "clients",
+        "description": "Operações com clientes. Necessário **login** para acessar esses recursos.",
     },
     {
-        "name": "pedidos",
-        "description": "Operações com pedidos. Necessário **login** para acessar esses recursos.",
-    },
-    {
-        "name": "email",
-        "description": "Operações com email. Necessário **login** para acessar esses recursos.",
+        "name": "ti",
+        "description": "Operações da TI. Necessário **login** para acessar esses recursos.",
     },
     {
         "name": "auth",
