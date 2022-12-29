@@ -18,7 +18,7 @@ class RepositoryClient():
     def register_client(self, client: schemas_client.Client):
 
         # conversao do schema em model
-        db_user = models_client.Client(
+        db_client = models_client.Client(
             create_at = client.create_at,
             birth_date = client.birth_date,
             name = client.name,
@@ -39,11 +39,11 @@ class RepositoryClient():
         )
 
         # operações no banco de dados
-        self.db.add(db_user)
+        self.db.add(db_client)
         self.db.commit()
-        self.db.refresh(db_user)
+        self.db.refresh(db_client)
 
-        return db_user
+        return db_client
 
     def edit_client(self, client_id: int, client: schemas_client.Client):
             update_statement = update(models_client.Client).where(

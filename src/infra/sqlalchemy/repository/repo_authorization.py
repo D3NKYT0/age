@@ -11,23 +11,28 @@ class RepositoryAuthorization():
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_authorization.Authorization).where(schemas_authorization.Authorization.id == id)
+        query = select(models_authorization.Authorization).where(models_authorization.Authorization.id == id)
+        authorization = self.db.execute(query).first()
+        return authorization
+
+    def searchByDescription(self, description: str):
+        query = select(models_authorization.Authorization).where(models_authorization.Authorization.description == description)
         authorization = self.db.execute(query).first()
         return authorization
 
     def register_authorization(self, authorization: schemas_authorization.Authorization):
 
         # conversao do schema em model
-        db_user = models_authorization.Authorization(
+        db_authorization = models_authorization.Authorization(
             description = authorization.description,
         )
 
         # operações no banco de dados
-        self.db.add(db_user)
+        self.db.add(db_authorization)
         self.db.commit()
-        self.db.refresh(db_user)
+        self.db.refresh(db_authorization)
 
-        return db_user
+        return db_authorization
 
     def edit_authorization(self, authorization_id: int, authorization: schemas_authorization.Authorization):
             update_statement = update(models_authorization.Authorization).where(
@@ -45,10 +50,10 @@ class RepositoryAuthorization():
         return authorization
 
     def remove_authorization(self, authorization_id: int):
-        statement = select(schemas_authorization.Authorization).filter_by(id=authorization_id)
+        statement = select(models_authorization.Authorization).filter_by(id=authorization_id)
         authorization = self.db.execute(statement).first()
 
-        statement = delete(schemas_authorization.Authorization).where(schemas_authorization.Authorization.id == authorization_id)
+        statement = delete(models_authorization.Authorization).where(schemas_authorization.Authorization.id == authorization_id)
         self.db.execute(statement)
         self.db.commit()
 

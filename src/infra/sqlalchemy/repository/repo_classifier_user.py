@@ -15,20 +15,25 @@ class RepositoryClassifierUser():
         classifieruser = self.db.execute(query).first()
         return classifieruser
 
+    def searchByDescription(self, description: str):
+        query = select(schemas_classifier_user.ClassifierUser).where(schemas_classifier_user.ClassifierUser.description == description)
+        authorization = self.db.execute(query).first()
+        return authorization
+
     def register_classifier_user(self, classifieruser: schemas_classifier_user.ClassifierUser):
 
         # conversao do schema em model
-        db_user = models_classifier_user.ClassifierUser(
+        db_classifier = models_classifier_user.ClassifierUser(
             description = classifieruser.description,
             create_at = classifieruser.create_at
         )
 
         # operações no banco de dados
-        self.db.add(db_user)
+        self.db.add(db_classifier)
         self.db.commit()
-        self.db.refresh(db_user)
+        self.db.refresh(db_classifier)
 
-        return db_user
+        return db_classifier
 
     def edit_classifier_user(self, classifier_user_id: int, classifier_user: schemas_classifier_user.ClassifierUser):
             update_statement = update(models_classifier_user.ClassifierUser).where(

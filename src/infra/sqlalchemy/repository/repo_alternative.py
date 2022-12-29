@@ -18,7 +18,7 @@ class RepositoryAlternative():
     def register_alternative(self, alternative: schemas_alternative.Alternative):
 
         # conversao do schema em model
-        db_user = models_alternative.Alternative(
+        db_alternative = models_alternative.Alternative(
             id = alternative.id,
             description = alternative.description,
             weight = alternative.weight,
@@ -27,11 +27,11 @@ class RepositoryAlternative():
         )
 
         # operações no banco de dados
-        self.db.add(db_user)
+        self.db.add(db_alternative)
         self.db.commit()
-        self.db.refresh(db_user)
+        self.db.refresh(db_alternative)
 
-        return db_user
+        return db_alternative
 
     def edit_alternative(self, alternative_id: int, alternative: schemas_alternative.Alternative):
             update_statement = update(models_alternative.Alternative).where(
