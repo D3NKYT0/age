@@ -4,7 +4,7 @@ from typing import Optional
 class Response(BaseModel):
     id: Optional[int] = None
     description: str
-    create_at: str
+    create_at: Optional[str]
     question_id: int
     client_id: int
 
