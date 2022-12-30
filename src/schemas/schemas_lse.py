@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 
+
 class Lse(BaseModel):
     id: Optional[int] = None
     quiz: str
