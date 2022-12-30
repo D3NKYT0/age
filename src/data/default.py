@@ -56,3 +56,12 @@ __license_info__ = {
 origins = [
     'http://localhost:3000'  # teste local
 ]
+
+
+authotizations = {
+    "15": "root",
+    "16": "admin",
+    "17": "user",
+    "18": "reader",
+    "19": "manager"
+}
