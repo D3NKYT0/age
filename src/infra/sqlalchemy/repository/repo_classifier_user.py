@@ -25,7 +25,8 @@ class RepositoryClassifierUser():
         # conversao do schema em model
         db_classifier = models_classifier_user.ClassifierUser(
             description = classifieruser.description,
-            create_at = classifieruser.create_at
+            create_at = classifieruser.create_at,
+            authorization_id = classifieruser.authorization_id
         )
 
         # operações no banco de dados
