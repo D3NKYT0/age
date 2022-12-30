@@ -1,11 +1,12 @@
 from pydantic import BaseModel
 from typing import Optional
+import datetime
 
 
 class Lse(BaseModel):
     id: Optional[int] = None
     quiz: str
-    create_at: Optional[str]
+    create_at: Optional[datetime.datetime]
     is_available: bool
 
     class Config:
