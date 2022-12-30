@@ -9,17 +9,26 @@ from sqlalchemy.orm import Session
 from src.schemas import schemas_custom, schemas_users
 from src.jobs import cog
 
+from src.resources.utils import check_authorization
+
 
 router = APIRouter()
 
 
 @router.post('/email', status_code=status.HTTP_202_ACCEPTED, response_model=schemas_custom.Email, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["ti"])
-def send_email(email_data: schemas_custom.Email, background: BackgroundTasks, _ = Depends(get_user_logged)):
+def send_email(email_data: schemas_custom.Email, background: BackgroundTasks, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
+
+    if not check_authorization(db, _, ["root"]):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
+
     background.add_task(cog.send_email_task, email_data)
     return email_data
 
 @router.get('/me/{login}', status_code=status.HTTP_200_OK, response_model=schemas_users.SimpleUser, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["ti"])
 def me(login: str, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
+
+    if not check_authorization(db, _, ["root", "admin", "manager", "user"]):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
     user = RepositoryUser(db).searchByLogin(login)
 

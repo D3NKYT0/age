@@ -18,7 +18,7 @@ router = APIRouter()
 @router.post('/classifier', status_code=status.HTTP_201_CREATED, response_model=schemas_classifier_user.ClassifierUser, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["god"])
 def register_classifier(classifier_data: schemas_classifier_user.ClassifierUser, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
-    if not check_authorization(db, _, "root"):
+    if not check_authorization(db, _, ["root"]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
     classifier_data = add_create_at_timestamp(classifier_data)
@@ -40,7 +40,7 @@ def register_classifier(classifier_data: schemas_classifier_user.ClassifierUser,
 @router.post('/authorization', status_code=status.HTTP_201_CREATED, response_model=schemas_authorization.Authorization, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["god"])
 def register_auth(auth_data: schemas_authorization.Authorization, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
-    if not check_authorization(db, _, "root"):
+    if not check_authorization(db, _, ["root"]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
     auth_data = add_create_at_timestamp(auth_data)

@@ -21,7 +21,7 @@ router = APIRouter()
 @router.post('/signup', status_code=status.HTTP_201_CREATED, response_model=schemas_users.User, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["auth"])
 def create_user(user: schemas_users.User, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
-    if not check_authorization(db, _, "root"):
+    if not check_authorization(db, _, ["root"]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
     user = add_create_at_timestamp(user)
