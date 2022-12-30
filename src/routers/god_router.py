@@ -32,7 +32,7 @@ def register_classifier(classifier_data: schemas_classifier_user.ClassifierUser,
 
     return classifier_created
 
-@router.get('/authorization', status_code=status.HTTP_201_CREATED, response_model=schemas_authorization.Authorization, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["god"])
+@router.post('/authorization', status_code=status.HTTP_201_CREATED, response_model=schemas_authorization.Authorization, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["god"])
 def register_auth(auth_data: schemas_authorization.Authorization, db: Session = Depends(get_db)):
 
     auth_data = add_create_at_timestamp(auth_data)

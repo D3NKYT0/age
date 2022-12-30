@@ -25,6 +25,7 @@ class RepositoryAuthorization():
         # conversao do schema em model
         db_authorization = models_authorization.Authorization(
             description = authorization.description,
+            create_at = authorization.create_at
         )
 
         # operações no banco de dados

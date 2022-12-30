@@ -36,7 +36,6 @@ class RepositoryLse():
                 models_lse.Lse.id == lse_id
             ).values(
                 quiz = lse.quiz,
-                create_at = lse.create_at,
                 is_available = lse.is_available
             )
 

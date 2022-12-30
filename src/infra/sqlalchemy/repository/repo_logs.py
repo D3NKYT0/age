@@ -34,7 +34,7 @@ class RepositoryLogs():
             update_statement = update(models_logs.Log).where(
                 models_logs.Log.id == log_id
             ).values(
-                description = log.description,
+                description = log.description
             )
 
             self.db.execute(update_statement)

@@ -49,7 +49,6 @@ class RepositoryClient():
             update_statement = update(models_client.Client).where(
                 models_client.Client.id == client_id
             ).values(
-                create_at = client.create_at,
                 birth_date = client.birth_date,
                 cep = client.cep,
                 UF = client.UF,
