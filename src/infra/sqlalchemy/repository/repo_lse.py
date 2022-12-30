@@ -11,7 +11,7 @@ class RepositoryLse():
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_lse.Lse).where(schemas_lse.Lse.id == id)
+        query = select(models_lse.Lse).where(models_lse.Lse.id == id)
         lse = self.db.execute(query).first()
         return lse
 
@@ -44,14 +44,14 @@ class RepositoryLse():
             return lse
 
     def show_all_lse(self):
-        lse = self.db.query(schemas_lse.Lse).all()
+        lse = self.db.query(models_lse.Lse).all()
         return lse
 
     def remove(self, lse_id: int):
-        statement = select(schemas_lse.Lse).filter_by(id=lse_id)
+        statement = select(models_lse.Lse).filter_by(id=lse_id)
         lse = self.db.execute(statement).first()
 
-        statement = delete(schemas_lse.Lse).where(schemas_lse.Lse.id == lse_id)
+        statement = delete(models_lse.Lse).where(models_lse.Lse.id == lse_id)
         self.db.execute(statement)
         self.db.commit()
 

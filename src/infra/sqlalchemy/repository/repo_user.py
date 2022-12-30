@@ -11,12 +11,12 @@ class RepositoryUser():
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_users.User).where(schemas_users.User.id == id)
+        query = select(models_user.User).where(models_user.User.id == id)
         user = self.db.execute(query).first()
         return user
 
     def searchByLogin(self, login: str):
-        query = select(schemas_users.User).where(schemas_users.User.login == login)
+        query = select(models_user.User).where(models_user.User.login == login)
         user = self.db.execute(query).first()
         return user
 
@@ -55,14 +55,14 @@ class RepositoryUser():
             return user
 
     def show_all_users(self):
-        users = self.db.query(schemas_users.User).all()
+        users = self.db.query(models_user.User).all()
         return users
 
     def remove(self, user_id: int):
-        statement = select(schemas_users.User).filter_by(id=user_id)
+        statement = select(models_user.User).filter_by(id=user_id)
         user = self.db.execute(statement).first()
 
-        statement = delete(schemas_users.User).where(schemas_users.User.id == user_id)
+        statement = delete(models_user.User).where(models_user.User.id == user_id)
         self.db.execute(statement)
         self.db.commit()
 

@@ -11,7 +11,7 @@ class RepositoryQuestions():
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_questions.Question).where(schemas_questions.Question.id == id)
+        query = select(models_questions.Question).where(models_questions.Question.id == id)
         question = self.db.execute(query).first()
         return question
 
@@ -48,14 +48,14 @@ class RepositoryQuestions():
             return question
 
     def show_all_questions(self):
-        questions = self.db.query(schemas_questions.Question).all()
+        questions = self.db.query(models_questions.Question).all()
         return questions
 
     def remove(self, question_id: int):
-        statement = select(schemas_questions.Question).filter_by(id=question_id)
+        statement = select(models_questions.Question).filter_by(id=question_id)
         question = self.db.execute(statement).first()
 
-        statement = delete(schemas_questions.Question).where(schemas_questions.Question.id == question_id)
+        statement = delete(models_questions.Question).where(models_questions.Question.id == question_id)
         self.db.execute(statement)
         self.db.commit()
 

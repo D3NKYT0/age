@@ -11,7 +11,7 @@ class RepositoryStatusClient():
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_status_client.StatusClient).where(schemas_status_client.Client.id == id)
+        query = select(models_status_client.StatusClient).where(models_status_client.StatusClient.id == id)
         status = self.db.execute(query).first()
         return status
 
@@ -42,14 +42,14 @@ class RepositoryStatusClient():
             return status
 
     def show_all_status(self):
-        status = self.db.query(schemas_status_client.StatusClient).all()
+        status = self.db.query(models_status_client.StatusClient).all()
         return status
 
     def remove(self, status_id: int):
-        statement = select(schemas_status_client.StatusClient).filter_by(id=status_id)
+        statement = select(models_status_client.StatusClient).filter_by(id=status_id)
         status = self.db.execute(statement).first()
 
-        statement = delete(schemas_status_client.StatusClient).where(schemas_status_client.StatusClient.id == status_id)
+        statement = delete(models_status_client.StatusClient).where(models_status_client.StatusClient.id == status_id)
         self.db.execute(statement)
         self.db.commit()
 

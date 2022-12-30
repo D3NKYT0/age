@@ -11,7 +11,7 @@ class RepositoryClient():
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_client.Client).where(schemas_client.Client.id == id)
+        query = select(models_client.Client).where(models_client.Client.id == id)
         Client = self.db.execute(query).first()
         return Client
 
@@ -70,14 +70,14 @@ class RepositoryClient():
             return client_id
 
     def show_all_clients(self):
-        client = self.db.query(schemas_client.Client).all()
+        client = self.db.query(models_client.Client).all()
         return client
 
     def remove(self, client_id: int):
-        statement = select(schemas_client.Client).filter_by(id=client_id)
+        statement = select(models_client.Client).filter_by(id=client_id)
         client_id = self.db.execute(statement).first()
 
-        statement = delete(schemas_client.Client).where(schemas_client.Client.id == client_id)
+        statement = delete(models_client.Client).where(models_client.Client.id == client_id)
         self.db.execute(statement)
         self.db.commit()
 

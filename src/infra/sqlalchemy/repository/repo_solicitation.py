@@ -11,7 +11,7 @@ class RepositorySolicitation():
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_solicitation.Solicitation).where(schemas_solicitation.Solicitation.id == id)
+        query = select(models_solicitation.Solicitation).where(models_solicitation.Solicitation.id == id)
         solicitation = self.db.execute(query).first()
         return solicitation
 
@@ -42,14 +42,14 @@ class RepositorySolicitation():
             return solicitation
 
     def show_all_solicitations(self):
-        solicitations = self.db.query(schemas_solicitation.Solicitation).all()
+        solicitations = self.db.query(models_solicitation.Solicitation).all()
         return solicitations
 
     def remove(self, solicitation_id: int):
-        statement = select(schemas_solicitation.Solicitation).filter_by(id=solicitation_id)
+        statement = select(models_solicitation.Solicitation).filter_by(id=solicitation_id)
         solicitation = self.db.execute(statement).first()
 
-        statement = delete(schemas_solicitation.Solicitation).where(schemas_solicitation.Solicitation.id == solicitation_id)
+        statement = delete(models_solicitation.Solicitation).where(models_solicitation.Solicitation.id == solicitation_id)
         self.db.execute(statement)
         self.db.commit()
 

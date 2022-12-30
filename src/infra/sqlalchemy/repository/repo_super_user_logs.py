@@ -11,7 +11,7 @@ class RepositorySuperUserLogs():
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_super_user_logs.SuperUserLogs).where(schemas_super_user_logs.SuperUserLogs.id == id)
+        query = select(models_super_user_logs.SuperLog).where(models_super_user_logs.SuperLog.id == id)
         log = self.db.execute(query).first()
         return log
 
@@ -42,14 +42,14 @@ class RepositorySuperUserLogs():
             return log
 
     def show_all_logs(self):
-        logs = self.db.query(schemas_super_user_logs.SuperUserLogs).all()
+        logs = self.db.query(models_super_user_logs.SuperLog).all()
         return logs
 
     def remove(self, log_id: int):
-        statement = select(schemas_super_user_logs.SuperUserLogs).filter_by(id=log_id)
+        statement = select(models_super_user_logs.SuperLog).filter_by(id=log_id)
         log = self.db.execute(statement).first()
 
-        statement = delete(schemas_super_user_logs.SuperUserLogs).where(schemas_super_user_logs.SuperUserLogs.id == log_id)
+        statement = delete(models_super_user_logs.SuperLog).where(models_super_user_logs.SuperLog.id == log_id)
         self.db.execute(statement)
         self.db.commit()
 

@@ -11,7 +11,7 @@ class RepositorySuperUser():
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_super_user.SuperUser).where(schemas_super_user.SuperUser.id == id)
+        query = select(models_super_user.SuperUser).where(models_super_user.SuperUser.id == id)
         user = self.db.execute(query).first()
         return user
 
@@ -50,14 +50,14 @@ class RepositorySuperUser():
             return user
 
     def show_all_users(self):
-        users = self.db.query(schemas_super_user.SuperUser).all()
+        users = self.db.query(models_super_user.SuperUser).all()
         return users
 
     def remove(self, user_id: int):
-        statement = select(schemas_super_user.SuperUser).filter_by(id=user_id)
+        statement = select(models_super_user.SuperUser).filter_by(id=user_id)
         user = self.db.execute(statement).first()
 
-        statement = delete(schemas_super_user.SuperUser).where(schemas_super_user.SuperUser.id == user_id)
+        statement = delete(models_super_user.SuperUser).where(models_super_user.SuperUser.id == user_id)
         self.db.execute(statement)
         self.db.commit()
 

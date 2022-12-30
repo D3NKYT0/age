@@ -11,7 +11,7 @@ class RepositoryLogs():
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_logs.Logs).where(schemas_logs.Logs.id == id)
+        query = select(models_logs.Logs).where(models_logs.Logs.id == id)
         log = self.db.execute(query).first()
         return log
 
@@ -46,10 +46,10 @@ class RepositoryLogs():
         return logs
 
     def remove(self, log_id: int):
-        statement = select(schemas_logs.Logs).filter_by(id=log_id)
+        statement = select(models_logs.Logs).filter_by(id=log_id)
         log = self.db.execute(statement).first()
 
-        statement = delete(schemas_logs.Logs).where(schemas_logs.Logs.id == log_id)
+        statement = delete(models_logs.Logs).where(models_logs.Logs.id == log_id)
         self.db.execute(statement)
         self.db.commit()
 

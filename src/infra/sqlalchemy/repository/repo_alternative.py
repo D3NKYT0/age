@@ -11,7 +11,7 @@ class RepositoryAlternative():
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_alternative.Alternative).where(schemas_alternative.Alternative.id == id)
+        query = select(models_alternative.Alternative).where(models_alternative.Alternative.id == id)
         alternative = self.db.execute(query).first()
         return alternative
 
@@ -51,10 +51,10 @@ class RepositoryAlternative():
         return alternative
 
     def remove_alternative(self, alternative_id: int):
-        statement = select(schemas_alternative.Alternative).filter_by(id=alternative_id)
+        statement = select(models_alternative.Alternative).filter_by(id=alternative_id)
         alternative = self.db.execute(statement).first()
 
-        statement = delete(schemas_alternative.Alternative).where(schemas_alternative.Alternative.id == alternative_id)
+        statement = delete(models_alternative.Alternative).where(models_alternative.Alternative.id == alternative_id)
         self.db.execute(statement)
         self.db.commit()
 

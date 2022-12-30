@@ -11,7 +11,7 @@ class RepositoryResponse():
         self.db = db
 
     def searchById(self, id: int):
-        query = select(schemas_response.Response).where(schemas_response.Response.id == id)
+        query = select(models_response.Response).where(models_response.Response.id == id)
         response = self.db.execute(query).first()
         return response
 
@@ -46,14 +46,14 @@ class RepositoryResponse():
             return response
 
     def show_all_responses(self):
-        responses = self.db.query(schemas_response.Response).all()
+        responses = self.db.query(models_response.Response).all()
         return responses
 
     def remove(self, response_id: int):
-        statement = select(schemas_response.Response).filter_by(id=response_id)
+        statement = select(models_response.Response).filter_by(id=response_id)
         response = self.db.execute(statement).first()
 
-        statement = delete(schemas_response.Response).where(schemas_response.Response.id == response_id)
+        statement = delete(models_response.Response).where(models_response.Response.id == response_id)
         self.db.execute(statement)
         self.db.commit()
 

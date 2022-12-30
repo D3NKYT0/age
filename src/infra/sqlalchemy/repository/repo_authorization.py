@@ -47,14 +47,14 @@ class RepositoryAuthorization():
             return authorization
 
     def show_all_authorization(self):
-        authorization = self.db.query(schemas_authorization.Authorization).all()
+        authorization = self.db.query(models_authorization.Authorization).all()
         return authorization
 
     def remove_authorization(self, authorization_id: int):
         statement = select(models_authorization.Authorization).filter_by(id=authorization_id)
         authorization = self.db.execute(statement).first()
 
-        statement = delete(models_authorization.Authorization).where(schemas_authorization.Authorization.id == authorization_id)
+        statement = delete(models_authorization.Authorization).where(models_authorization.Authorization.id == authorization_id)
         self.db.execute(statement)
         self.db.commit()
 
