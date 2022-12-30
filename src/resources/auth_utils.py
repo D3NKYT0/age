@@ -15,18 +15,18 @@ with open("auth/data/auth.json", encoding="utf-8") as auth_data:
 
 
 oauth2_schema = OAuth2PasswordBearer(tokenUrl=_auth_data['tokenUrl'])
-token_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Token Invalido')
+token_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Invalid Token')
 
 
 def get_user_logged(token: str = Depends(oauth2_schema), db: Session = Depends(get_db)):
     try:
-        phone = token_provider.verify_access_token(token)
+        login = token_provider.verify_access_token(token)
     except JWTError:
         raise token_exception
 
-    if not phone:
+    if not login:
         raise token_exception
-    user = RepositoryUser(db).searchById(phone)
+    user = RepositoryUser(db).searchByLogin(login)
 
     if not user:
         raise token_exception
