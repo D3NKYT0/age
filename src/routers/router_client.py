@@ -16,7 +16,12 @@ router = APIRouter()
 
 
 @router.get('/client/{id}', status_code=status.HTTP_200_OK, response_model=schemas_client.SimpleClient, tags=["clients"])
-def show_client(id: int, db: Session = Depends(get_db)):
+def show_client(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
+
+    if not check_authorization(db, ["root"]):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
+
+    client = add_create_at_timestamp(client)
 
     client_located = RepositoryClient(db).searchById(id)
 
@@ -26,7 +31,10 @@ def show_client(id: int, db: Session = Depends(get_db)):
     return client_located
 
 @router.get('/client/all', status_code=status.HTTP_200_OK, response_model=List[schemas_client.SimpleClient], tags=["clients"])
-def show_all_clients( db: Session = Depends(get_db)):
+def show_all_clients( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
+
+    if not check_authorization(db, ["root"]):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
     all_client = RepositoryClient(db).show_all_clients()
 
@@ -63,7 +71,7 @@ def update_client(id: int, client: schemas_client.Client, _ = Depends(get_user_l
 
     return client_updated
 
-@router.delete('/client/{client_id}', status_code=status.HTTP_200_OK, response_model=schemas_client.SimpleClient, tags=["clients"])
+@router.delete('/client/{id}', status_code=status.HTTP_200_OK, response_model=schemas_client.SimpleClient, tags=["clients"])
 def delete_client(client_id: int, _ = Depends(get_user_logged) ,db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
