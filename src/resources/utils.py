@@ -4,8 +4,11 @@ from src.data.default import authotizations
 from src.infra.sqlalchemy.repository.repo_classifier_user import RepositoryClassifierUser
 
 
-def add_create_at_timestamp(data: object) -> object:
-    data.create_at = datetime.datetime.now().astimezone().isoformat()
+def add_create_at_timestamp(data: object, is_log: bool = False) -> object:
+    if is_log:
+        data.log = datetime.datetime.now().astimezone().isoformat()
+    else:
+        data.create_at = datetime.datetime.now().astimezone().isoformat()
     return data
 
 

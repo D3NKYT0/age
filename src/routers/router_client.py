@@ -3,60 +3,73 @@ from fastapi import Depends, status, APIRouter, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 
-from src.schemas import schemas_produtos
-from src.infra.sqlalchemy.repository.produto import RepositorioProduto
-from src.infra.sqlalchemy.repository.usuario import RepositorioUsuario
+from src.resources.auth_utils import get_user_logged
+from src.resources.utils import check_authorization
+from src.resources.utils import add_create_at_timestamp
+
+from src.schemas import schemas_client
+from src.infra.sqlalchemy.repository.repo_client import RepositoryClient
 from src.infra.sqlalchemy.config.database import get_db
 
 
 router = APIRouter()
 
 
-@router.get('/produtos/{id}', tags=["produtos"])
-def exibir_produto(id: int, db: Session = Depends(get_db)):
-    produto_localizado = RepositorioProduto(db).buscarPorId(id)
+@router.get('/client/{id}', status_code=status.HTTP_200_OK, response_model=schemas_client.SimpleClient, tags=["clients"])
+def show_client(id: int, db: Session = Depends(get_db)):
 
-    if not produto_localizado:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Produto não encontrado")
+    client_located = RepositoryClient(db).searchById(id)
 
-    return produto_localizado
+    if not client_located:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Client not exist!")
 
-@router.post('/produtos', status_code=status.HTTP_201_CREATED, response_model=schemas_produtos.ProdutoSimples, tags=["produtos"])
-def criar_produto(produto: schemas_produtos.Produto, db: Session = Depends(get_db)):
-    produto_criado = RepositorioProduto(db).criar(produto)
-    return produto_criado
+    return client_located
 
-@router.put('/produtos/{id}', status_code=status.HTTP_200_OK, response_model=schemas_produtos.ProdutoSimples, tags=["produtos"])
-def atualizar_produto(id: int, produto: schemas_produtos.Produto, db: Session = Depends(get_db)):
-    produto_atualizado = RepositorioProduto(db).editar(id, produto)
-    produto_atualizado.id = id
-    return produto_atualizado
+@router.get('/client/all', status_code=status.HTTP_200_OK, response_model=List[schemas_client.SimpleClient], tags=["clients"])
+def show_all_clients( db: Session = Depends(get_db)):
 
-@router.get('/produtos', status_code=status.HTTP_200_OK, response_model=list[schemas_produtos.ProdutoSimples], tags=["produtos"])
-def listar_produtos(db: Session = Depends(get_db)):
-    produtos = RepositorioProduto(db).listar()
-    return produtos
+    all_client = RepositoryClient(db).show_all_clients()
 
-@router.get('/produtos/{produto_id}', status_code=status.HTTP_200_OK, response_model=schemas_produtos.ProdutoRetorno, tags=["produtos"])
-def obter_produto(produto_id: int, db: Session = Depends(get_db)):
-    produto = RepositorioProduto(db).obter(produto_id)
-    try:
-        retorno = produto.__dict__
-    except AttributeError:
-        produto['usuario_id'] = -1
-        retorno = produto
-    usuario_id = retorno['usuario_id']
-    user = RepositorioUsuario(db).obter(usuario_id)
-    if user is not None:
-        try:
-            retorno['usuario'] = user.__dict__
-        except AttributeError:
-            retorno['usuario'] = user
-    else:
-        retorno['usuario'] = {"nome": "Usuario nao encontrado", "telefone": "", "senha": ""}
-    return retorno
+    if not all_client:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="There are no registered clients!")
 
-@router.delete('/produtos/{produto_id}', status_code=status.HTTP_200_OK, response_model=schemas_produtos.ProdutoSimples, tags=["produtos"])
-def remover_produto(produto_id: int, db: Session = Depends(get_db)):
-    produto = RepositorioProduto(db).remover(produto_id)
-    return produto
+    return all_client
+
+@router.post('/client', status_code=status.HTTP_201_CREATED, response_model=schemas_client.SimpleClient, tags=["client"])
+def create_client(client: schemas_client.Client, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
+
+    if not check_authorization(db, _, ["root"]):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
+
+    client = add_create_at_timestamp(client)
+
+    client_created = RepositoryClient(db).register_client(client)
+    return client_created
+
+@router.put('/client/{id}', status_code=status.HTTP_200_OK, response_model=schemas_client.SimpleClient, tags=["client"])
+def update_client(id: int, client: schemas_client.Client, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
+
+    if not check_authorization(db, _, ["root"]):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
+
+    client = add_create_at_timestamp(client, True)
+
+    # -- register log here --
+    # --
+    # -- end --
+
+    client_updated = RepositoryClient(db).edit_client(id, client)
+    client_updated.id = id
+
+    return client_updated
+
+@router.delete('/client/{client_id}', status_code=status.HTTP_200_OK, response_model=schemas_client.SimpleClient, tags=["client"])
+def delete_client(client_id: int, _ = Depends(get_user_logged) ,db: Session = Depends(get_db)):
+
+    if not check_authorization(db, _, ["root"]):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
+
+    client = add_create_at_timestamp(client, True)
+
+    client = RepositoryClient(db).remove(client_id)
+    return client
