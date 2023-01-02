@@ -15,7 +15,7 @@ from src.infra.sqlalchemy.config.database import get_db
 router = APIRouter()
 
 
-@router.get('/client/{id}', status_code=status.HTTP_200_OK, response_model=schemas_client.SimpleClient, tags=["client"])
+@router.get('/client/{id}', status_code=status.HTTP_200_OK, response_model=schemas_client.SimpleClient, tags=["clients"])
 def show_client(id: int, db: Session = Depends(get_db)):
 
     client_located = RepositoryClient(db).searchById(id)
