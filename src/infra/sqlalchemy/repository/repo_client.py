@@ -32,7 +32,7 @@ class RepositoryClient():
             line_of_credit = client.line_of_credit,
             line_of_business = client.line_of_business,
             start_of_business = client.start_of_business,
-            staus_id = client.status_id,
+            status_id = client.status_id,
             lse_id = client.lse_id,
             user_id = client.user_id
 
