@@ -15,7 +15,7 @@ from src.infra.sqlalchemy.config.database import get_db
 router = APIRouter()
 
 
-@router.get('/client/{id}', status_code=status.HTTP_200_OK, response_model=schemas_client.SimpleClient, tags=["clients"])
+@router.get('/client/{id}', status_code=status.HTTP_200_OK, response_model=schemas_client.SimpleClient, tags=["client"])
 def show_client(id: int, db: Session = Depends(get_db)):
 
     client_located = RepositoryClient(db).searchById(id)
@@ -35,7 +35,7 @@ def show_all_clients( db: Session = Depends(get_db)):
 
     return all_client
 
-@router.post('/client', status_code=status.HTTP_201_CREATED, response_model=schemas_client.SimpleClient, tags=["client"])
+@router.post('/client', status_code=status.HTTP_201_CREATED, response_model=schemas_client.SimpleClient, tags=["clients"])
 def create_client(client: schemas_client.Client, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -46,7 +46,7 @@ def create_client(client: schemas_client.Client, _ = Depends(get_user_logged), d
     client_created = RepositoryClient(db).register_client(client)
     return client_created
 
-@router.put('/client/{id}', status_code=status.HTTP_200_OK, response_model=schemas_client.SimpleClient, tags=["client"])
+@router.put('/client/{id}', status_code=status.HTTP_200_OK, response_model=schemas_client.SimpleClient, tags=["clients"])
 def update_client(id: int, client: schemas_client.Client, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -63,7 +63,7 @@ def update_client(id: int, client: schemas_client.Client, _ = Depends(get_user_l
 
     return client_updated
 
-@router.delete('/client/{client_id}', status_code=status.HTTP_200_OK, response_model=schemas_client.SimpleClient, tags=["client"])
+@router.delete('/client/{client_id}', status_code=status.HTTP_200_OK, response_model=schemas_client.SimpleClient, tags=["clients"])
 def delete_client(client_id: int, _ = Depends(get_user_logged) ,db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
