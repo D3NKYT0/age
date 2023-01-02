@@ -16,8 +16,8 @@ class Client(BaseModel):
     complement: str
     phone: str
     line_of_credit: str
-    line_of_business = str
-    start_of_business =  Optional[datetime.datetime]
+    line_of_business: str
+    start_of_business: Optional[datetime.datetime]
     status_id: int
     lse_id: int
     user_id: int
