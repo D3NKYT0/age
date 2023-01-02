@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, TIMESTAMP
+from sqlalchemy import Column, Integer, String, ForeignKey, TIMESTAMP , DATE
 from sqlalchemy.orm import relationship
 from src.infra.sqlalchemy.config.database import Base
 from src.data import default as df

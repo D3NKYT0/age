@@ -6,7 +6,7 @@ import datetime
 class Client(BaseModel):
     id: Optional[int] = None
     create_at: Optional[datetime.datetime]
-    birth_date: str
+    birth_date: Optional[datetime.datetime]
     name: str
     cep: str
     UF: str
@@ -17,7 +17,7 @@ class Client(BaseModel):
     phone: str
     line_of_credit: str
     line_of_business = str
-    start_of_business = str
+    start_of_business =  Optional[datetime.datetime]
     status_id: int
     lse_id: int
     user_id: int
