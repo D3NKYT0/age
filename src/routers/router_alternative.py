@@ -15,7 +15,7 @@ from src.infra.sqlalchemy.config.database import get_db
 router = APIRouter()
 
 
-@router.get('/alternative/{id}', status_code=status.HTTP_200_OK, response_model=schemas_alternative.SimpleAlternative, tags=["alternative"])
+@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_alternative.SimpleAlternative, tags=["alternative"])
 def show_alternative(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, ["root"]):
@@ -30,7 +30,7 @@ def show_alternative(id: int, _ = Depends(get_user_logged), db: Session = Depend
 
     return alternative_located
 
-@router.get('/alternative/all', status_code=status.HTTP_200_OK, response_model=List[schemas_alternative.SimpleAlternative], tags=["alternatives"])
+@router.get('/get/all', status_code=status.HTTP_200_OK, response_model=List[schemas_alternative.SimpleAlternative], tags=["alternatives"])
 def show_all_alternative( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, ["root"]):
@@ -43,7 +43,7 @@ def show_all_alternative( _ = Depends(get_user_logged), db: Session = Depends(ge
 
     return all_alternative
 
-@router.post('/alternative', status_code=status.HTTP_201_CREATED, response_model=schemas_alternative.SimpleAlternative, tags=["alternative"])
+@router.post('/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_alternative.SimpleAlternative, tags=["alternative"])
 def create_alternative(alternative: schemas_alternative.Alternative, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -54,7 +54,7 @@ def create_alternative(alternative: schemas_alternative.Alternative, _ = Depends
     alternative_created = RepositoryAlternative(db).register(alternative)
     return alternative_created
 
-@router.put('/alternative/{id}', status_code=status.HTTP_200_OK, response_model=schemas_alternative.SimpleAlternative, tags=["alternative"])
+@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_alternative.SimpleAlternative, tags=["alternative"])
 def update_question(id: int, alternative: schemas_alternative.Alternative, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -71,7 +71,7 @@ def update_question(id: int, alternative: schemas_alternative.Alternative, _ = D
 
     return alternative_updated
 
-@router.delete('/alternative/{id}', status_code=status.HTTP_200_OK, response_model=schemas_alternative.SimpleAlternative, tags=["alternative"])
+@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_alternative.SimpleAlternative, tags=["alternative"])
 def delete_alternative(alternative_id: int, _ = Depends(get_user_logged) ,db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):

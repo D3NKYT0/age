@@ -15,7 +15,7 @@ from src.infra.sqlalchemy.config.database import get_db
 router = APIRouter()
 
 
-@router.get('/question/{id}', status_code=status.HTTP_200_OK, response_model=schemas_questions.SimpleQuestion, tags=["question"])
+@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_questions.SimpleQuestion, tags=["question"])
 def show_question(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, ["root"]):
@@ -30,7 +30,7 @@ def show_question(id: int, _ = Depends(get_user_logged), db: Session = Depends(g
 
     return question_located
 
-@router.get('/questions/all', status_code=status.HTTP_200_OK, response_model=List[schemas_questions.SimpleQuestion], tags=["questions"])
+@router.get('/get/all', status_code=status.HTTP_200_OK, response_model=List[schemas_questions.SimpleQuestion], tags=["questions"])
 def show_all_questions( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, ["root"]):
@@ -43,7 +43,7 @@ def show_all_questions( _ = Depends(get_user_logged), db: Session = Depends(get_
 
     return all_questions
 
-@router.post('/question', status_code=status.HTTP_201_CREATED, response_model=schemas_questions.SimpleQuestion, tags=["question"])
+@router.post('/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_questions.SimpleQuestion, tags=["question"])
 def create_question(question: schemas_questions.Question, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -54,7 +54,7 @@ def create_question(question: schemas_questions.Question, _ = Depends(get_user_l
     question_created = RepositoryQuestions(db).register(question)
     return question_created
 
-@router.put('/question/{id}', status_code=status.HTTP_200_OK, response_model=schemas_questions.SimpleQuestion, tags=["question"])
+@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_questions.SimpleQuestion, tags=["question"])
 def update_question(id: int, question: schemas_questions.Question, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -71,7 +71,7 @@ def update_question(id: int, question: schemas_questions.Question, _ = Depends(g
 
     return question_updated
 
-@router.delete('/question/{id}', status_code=status.HTTP_200_OK, response_model=schemas_questions.SimpleQuestion, tags=["question"])
+@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_questions.SimpleQuestion, tags=["question"])
 def delete_question(question_id: int, _ = Depends(get_user_logged) ,db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
