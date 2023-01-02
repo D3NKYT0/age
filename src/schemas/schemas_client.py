@@ -1,12 +1,12 @@
 from pydantic import BaseModel
 from typing import Optional
-import datetime
+from datetime import datetime as dt
 
 
 class Client(BaseModel):
     id: Optional[int] = None
-    create_at: Optional[datetime.datetime]
-    birth_date: Optional[datetime.datetime]
+    create_at: Optional[dt]
+    birth_date: Optional[dt]
     name: str
     cep: str
     UF: str
@@ -17,7 +17,7 @@ class Client(BaseModel):
     phone: str
     line_of_credit: str
     line_of_business: str
-    start_of_business: Optional[datetime.datetime]
+    start_of_business: Optional[dt]
     status_id: int
     lse_id: int
     user_id: int
@@ -28,7 +28,7 @@ class Client(BaseModel):
 
 class SimpleClient(BaseModel):
     id: Optional[int] = None
-    create_at: Optional[datetime.datetime]
+    create_at: Optional[dt]
     name: str
     city: str
     line_of_credit: str

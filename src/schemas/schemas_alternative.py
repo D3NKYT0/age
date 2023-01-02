@@ -1,13 +1,13 @@
 from pydantic import BaseModel
 from typing import Optional
-import datetime
+from datetime import datetime as dt
 
 class Alternative(BaseModel):
     id: Optional[int] = None
     description: str
     weight: float
     is_available: bool
-    create_at: Optional[datetime.datetime]
+    create_at: Optional[dt]
     question_id: int
 
     class Config:

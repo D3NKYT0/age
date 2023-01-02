@@ -1,12 +1,12 @@
 from pydantic import BaseModel
 from typing import Optional
-import datetime
+from datetime import datetime as dt
 
 
 class Response(BaseModel):
     id: Optional[int] = None
     description: str
-    create_at: Optional[datetime.datetime]
+    create_at: Optional[dt]
     question_id: int
     client_id: int
 

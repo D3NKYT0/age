@@ -1,11 +1,11 @@
 from pydantic import BaseModel
 from typing import Optional
-import datetime
+from datetime import datetime as dt
 
 
 class User(BaseModel):
     id: Optional[int] = None
-    create_at: Optional[datetime.datetime]
+    create_at: Optional[dt]
     name: str
     login: str
     password: str
@@ -18,7 +18,7 @@ class User(BaseModel):
 
 class SimpleUser(BaseModel):
     id: Optional[int] = None
-    create_at: Optional[datetime.datetime]
+    create_at: Optional[dt]
     name: str
 
     class Config:
