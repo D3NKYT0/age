@@ -5,6 +5,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+from src.resources.utils import email_body_html
+
 
 with open("auth/data/auth.json", encoding="utf-8") as auth_data:
     _auth_data = json.load(auth_data)
@@ -23,12 +25,14 @@ _context = ssl.create_default_context()
 
 def send_email(content: str, subject: str, destination_email: str):
 
+    body_email = email_body_html.replace("YOUR_CODE_HERE", content)
+
     # Criando mensagem
     email_msg = MIMEMultipart()
     email_msg['From'] = _mail
     email_msg['To'] = destination_email
     email_msg['Subject'] = subject
-    email_msg.attach(MIMEText(content, 'plain'))
+    email_msg.attach(MIMEText(body_email, 'html'))
 
     with smtplib.SMTP(_host, _port) as server:
         server.ehlo()
