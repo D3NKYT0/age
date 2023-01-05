@@ -1,0 +1,83 @@
+from fastapi import Depends, status, APIRouter, HTTPException
+
+from sqlalchemy.orm import Session
+from typing import List
+
+from src.resources.auth_utils import get_user_logged
+from src.resources.utils import check_authorization
+from src.resources.utils import add_create_at_timestamp
+
+from src.schemas import schemas_authorization
+from src.infra.sqlalchemy.repository.repo_authorization import RepositoryAuthorization
+from src.infra.sqlalchemy.config.database import get_db
+
+
+router = APIRouter()
+
+
+@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_authorization.Authorization, tags=["authorizations"])
+def show_authorization(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
+
+    if not check_authorization(db, ["root"]):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
+
+    authorization_located = add_create_at_timestamp(authorization_located)
+
+    authorization_located = RepositoryAuthorization(db).searchById(id)
+
+    if not authorization_located:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Authorization not exist!")
+
+    return authorization_located
+
+@router.get('/get/all', status_code=status.HTTP_200_OK, response_model=List[schemas_authorization.Authorization], tags=["authorizations"])
+def show_all_authorization( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
+
+    if not check_authorization(db, ["root"]):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
+
+    all_authorization = RepositoryAuthorization(db).show_all_authorization()
+
+    if not  all_authorization:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="There are no authorizations located!")
+
+    return  all_authorization
+
+@router.post('/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_authorization.Authorization, tags=["authorizations"])
+def create_authorization(authorization: schemas_authorization.Authorization, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
+
+    if not check_authorization(db, _, ["root"]):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
+
+    authorization_created = add_create_at_timestamp(authorization)
+
+    authorization_created = RepositoryAuthorization(db).register(authorization)
+    return authorization_created
+
+@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_authorization.Authorization, tags=["authorizations"])
+def update_authorization(id: int, authorization: schemas_authorization.Authorization, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
+
+    if not check_authorization(db, _, ["root"]):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
+
+    authorization = add_create_at_timestamp(authorization, True)
+
+    # -- register log here --
+    # --
+    # -- end --
+
+    authorization_updated = RepositoryAuthorization(db).edit(id, authorization)
+    authorization_updated.id = id
+
+    return authorization_updated
+
+@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_authorization.Authorization, tags=["authorizations"])
+def delete_authorization(authorization_id: int, _ = Depends(get_user_logged) ,db: Session = Depends(get_db)):
+
+    if not check_authorization(db, _, ["root"]):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
+
+    authorization = add_create_at_timestamp(authorization_id, True)
+
+    authorization = RepositoryAuthorization(db).remove(authorization_id)
+    return authorization
