@@ -8,7 +8,7 @@ from src.resources.utils import check_authorization
 from src.resources.utils import add_create_at_timestamp
 
 from src.schemas import schemas_users
-from src.infra.sqlalchemy.repository.repo_lse import RepositoryUsers
+from src.infra.sqlalchemy.repository.repo_user import RepositoryUser
 from src.infra.sqlalchemy.config.database import get_db
 
 
@@ -23,7 +23,7 @@ def show_user(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_d
 
     user_located = add_create_at_timestamp(user_located)
 
-    user_located = RepositoryUsers(db).searchById(id)
+    user_located = RepositoryUser(db).searchById(id)
 
     if not user_located:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not exist!")
@@ -36,7 +36,7 @@ def show_all_users( _ = Depends(get_user_logged), db: Session = Depends(get_db))
     if not check_authorization(db, ["root"]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
-    all_users = RepositoryUsers(db).show_all_users()
+    all_users = RepositoryUser(db).show_all_users()
 
     if not all_users:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="There are no users located!")
@@ -51,7 +51,7 @@ def create_users(lse: schemas_users.User, _ = Depends(get_user_logged), db: Sess
 
     users = add_create_at_timestamp(users)
 
-    users_created = RepositoryUsers(db).register(users)
+    users_created = RepositoryUser(db).register(users)
     return users_created
 
 @router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_users.SimpleUser, tags=["users"])
@@ -66,7 +66,7 @@ def update_users(id: int, user: schemas_users.User, _ = Depends(get_user_logged)
     # --
     # -- end --
 
-    user_updated = RepositoryUsers(db).edit(id, user)
+    user_updated = RepositoryUser(db).edit(id, user)
     user_updated.id = id
 
     return user_updated
@@ -79,5 +79,5 @@ def delete_users(user_id: int, _ = Depends(get_user_logged) ,db: Session = Depen
 
     user = add_create_at_timestamp(user, True)
 
-    user = RepositoryUsers(db).remove(user_id)
+    user = RepositoryUser(db).remove(user_id)
     return user
