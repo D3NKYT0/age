@@ -15,7 +15,7 @@ from src.infra.sqlalchemy.config.database import get_db
 router = APIRouter()
 
 
-@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_solicitation.Solicitation, tags=["solicitation"])
+@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_solicitation.Solicitation, tags=["solicitations"])
 def show_solicitation(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, ["root"]):
@@ -43,7 +43,7 @@ def show_all_solicitations( _ = Depends(get_user_logged), db: Session = Depends(
 
     return all_solicitations
 
-@router.post('/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_solicitation.Solicitation, tags=["solicitation"])
+@router.post('/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_solicitation.Solicitation, tags=["solicitations"])
 def create_solicitation(solicitation: schemas_solicitation.Solicitation, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -54,7 +54,7 @@ def create_solicitation(solicitation: schemas_solicitation.Solicitation, _ = Dep
     solicitation_created = RepositorySolicitation(db).register(solicitation)
     return solicitation_created
 
-@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_solicitation.Solicitation, tags=["solicitation"])
+@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_solicitation.Solicitation, tags=["solicitations"])
 def update_solicitation(id: int, solicitation: schemas_solicitation.Solicitation, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -71,7 +71,7 @@ def update_solicitation(id: int, solicitation: schemas_solicitation.Solicitation
 
     return solicitation_updated
 
-@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_solicitation.Solicitation, tags=["solicitation"])
+@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_solicitation.Solicitation, tags=["solicitations"])
 def delete_solicitation(solicitation_id: int, _ = Depends(get_user_logged) ,db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
