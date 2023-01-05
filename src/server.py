@@ -6,7 +6,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.infra.sqlalchemy.config.database import criar_db
 
 from src.routers import router_auth, super_router, god_router, router_client
-from src.routers import router_alternative, router_lse, router_questions, router_response, router_solicitation, router_authorization, router_classifier_user, router_status_client, router_super_user, router_super_user_logs
+from src.routers import router_alternative, router_lse, router_questions 
+from src.routers import router_response, router_solicitation, router_authorization
+from src.routers import router_classifier_user, router_status_client, router_super_user, router_super_user_logs
 
 from starlette.middleware.base import BaseHTTPMiddleware
 from src.middlewares import timer as md_timer
