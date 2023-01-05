@@ -24,7 +24,7 @@ def send_email(email_data: schemas_custom.Email, background: BackgroundTasks, _ 
     background.add_task(cog.send_email_task, email_data)
     return email_data
 
-@router.get('/me/{login}', status_code=status.HTTP_200_OK, response_model=schemas_users.SimpleUser, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["ti"])
+@router.get('/user/{login}', status_code=status.HTTP_200_OK, response_model=schemas_users.SimpleUser, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["ti"])
 def me(login: str, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root", "admin", "manager", "user"]):
