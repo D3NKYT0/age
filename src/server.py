@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.infra.sqlalchemy.config.database import criar_db
 
-from src.routers import router_auth, super_router, god_router, router_client
+from src.routers import router_auth, super_router, router_client
 from src.routers import router_alternative, router_lse, router_questions 
 from src.routers import router_response, router_solicitation, router_authorization
 from src.routers import router_classifier_user, router_status_client, router_super_user, router_super_user_logs
@@ -76,7 +76,6 @@ app.add_middleware(
 # Router
 app.include_router(router_auth.router, prefix='/auth')
 app.include_router(super_router.router, prefix='/ti')
-app.include_router(god_router.router, prefix='/god')
 app.include_router(router_client.router, prefix='/client')
 app.include_router(router_questions.router, prefix='/question')
 app.include_router(router_lse.router, prefix='/lse')
