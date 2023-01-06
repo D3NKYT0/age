@@ -62,7 +62,7 @@ email_body_html = """
                             <table border="0" width="600px" cellpadding="0" cellspacing="0">
                                 <tr align="center">
                                     <td width="85%">
-                                        <span style="color: #fff;">age.pe.gov.br</span>
+                                        <span style="color: #fff;">www.age.pe.gov.br</span>
                                     </td>
                                 </tr>
                             </table>
