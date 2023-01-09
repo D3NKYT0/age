@@ -15,6 +15,7 @@ class Client(Base):
     id = Column(Integer, primary_key=True, index=True)
     create_at = Column(TIMESTAMP)
     birth_date = Column(DATE)
+    CPF = Column(String)
     name = Column(String)
     cep = Column(String)
     UF = Column(String)
