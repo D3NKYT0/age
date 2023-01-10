@@ -56,7 +56,7 @@ http://192.168.0.101:8000/docs
 **Núcleo de Programação**
 
 - Denky#9370 (Daniel Amaral)
-- Renan Nere
+- Renan Nere (DBA)
 
 **Infraestrutura**
 
