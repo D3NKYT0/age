@@ -20,7 +20,7 @@ from src.data import default
 
 
 # CONFIGS
-__version__ = "0.0.21.1"
+__version__ = "0.0.22.1"
 __postgressql__ = True
 
 
