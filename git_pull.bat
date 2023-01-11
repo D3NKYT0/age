@@ -1,1 +1,1 @@
-git pull age master
+git pull age release
