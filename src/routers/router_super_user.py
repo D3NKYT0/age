@@ -30,7 +30,7 @@ def show_super_user(id: int, _ = Depends(get_user_logged), db: Session = Depends
 
     return super_user_located
 
-@router.get('/get/all', status_code=status.HTTP_200_OK, response_model=List[schemas_super_user.SimpleSuperUser], tags=["super_users"])
+@router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_super_user.SimpleSuperUser], tags=["super_users"])
 def show_all_super_users( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, ["root"]):

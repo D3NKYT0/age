@@ -30,7 +30,7 @@ def show_user(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_d
 
     return user_located
 
-@router.get('/get/all', status_code=status.HTTP_200_OK, response_model=List[schemas_users.SimpleUser], tags=["users"])
+@router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_users.SimpleUser], tags=["users"])
 def show_all_users( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, ["root"]):

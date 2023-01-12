@@ -30,7 +30,7 @@ def show_alternative(id: int, _ = Depends(get_user_logged), db: Session = Depend
 
     return alternative_located
 
-@router.get('/get/all', status_code=status.HTTP_200_OK, response_model=List[schemas_alternative.SimpleAlternative], tags=["alternatives"])
+@router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_alternative.SimpleAlternative], tags=["alternatives"])
 def show_all_alternative( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, ["root"]):
