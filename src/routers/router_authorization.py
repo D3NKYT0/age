@@ -9,9 +9,9 @@ from src.infra.sqlalchemy.config.database import get_db
 from src.resources.auth_utils import get_user_logged
 from src.resources.utils import check_authorization
 
-from src.schemas import schemas_authorization, schemas_super_user_logs
+from src.schemas import schemas_authorization, schemas_logs
 from src.infra.sqlalchemy.repository.repo_authorization import RepositoryAuthorization
-from src.infra.sqlalchemy.repository.repo_super_user_logs import RepositorySuperUserLogs
+from src.infra.sqlalchemy.repository.repo_logs import RepositoryLogs
 
 
 
@@ -58,9 +58,9 @@ def register_auth(auth_data: schemas_authorization.Authorization, _ = Depends(ge
     if exist:
         raise HTTPException(status_code=status.HTTP_302_FOUND, detail="Already existing authorizarion!")
 
-    log_data = {"description": f"O usuario {_.User.name} criou uma autorização", "create_at": None, "super_user_id": _.User.id}
-    log_data = add_create_at_timestamp(schemas_super_user_logs.SuperUserLogs(**log_data))
-    RepositorySuperUserLogs(db).register(log_data)
+    log_data = {"description": f"O usuario {_.User.name} criou uma autorização", "create_at": None, "user_id": _.User.id}
+    log_data = add_create_at_timestamp(schemas_logs.Logs(**log_data))
+    RepositoryLogs(db).register(log_data)
 
     authorization_created = RepositoryAuthorization(db).register_authorization(auth_data)
 
@@ -74,9 +74,9 @@ def update_authorization(id: int, authorization: schemas_authorization.Authoriza
 
     authorization = add_create_at_timestamp(authorization, True)
 
-    log_data = {"description": f"O usuario {_.User.name} editou uma autorização", "create_at": None, "super_user_id": _.User.id}
-    log_data = add_create_at_timestamp(schemas_super_user_logs.SuperUserLogs(**log_data))
-    RepositorySuperUserLogs(db).register(log_data)
+    log_data = {"description": f"O usuario {_.User.name} criou uma autorização", "create_at": None, "user_id": _.User.id}
+    log_data = add_create_at_timestamp(schemas_logs.Logs(**log_data))
+    RepositoryLogs(db).register(log_data)
 
     authorization_updated = RepositoryAuthorization(db).edit_authorization(id, authorization)
     authorization_updated.id = id
@@ -91,9 +91,9 @@ def delete_authorization(authorization_id: int, _ = Depends(get_user_logged) ,db
 
     authorization = add_create_at_timestamp(authorization, True)
 
-    log_data = {"description": f"O usuario {_.User.name} deletou uma autorização", "create_at": None, "super_user_id": _.User.id}
-    log_data = add_create_at_timestamp(schemas_super_user_logs.SuperUserLogs(**log_data))
-    RepositorySuperUserLogs(db).register(log_data)
+    log_data = {"description": f"O usuario {_.User.name} criou uma autorização", "create_at": None, "user_id": _.User.id}
+    log_data = add_create_at_timestamp(schemas_logs.Logs(**log_data))
+    RepositoryLogs(db).register(log_data)
 
     authorization = RepositoryAuthorization(db).remove_authorization(authorization_id)
     return authorization
