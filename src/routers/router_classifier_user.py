@@ -11,6 +11,7 @@ from src.resources.utils import check_authorization
 
 from src.schemas import schemas_classifier_user
 from src.infra.sqlalchemy.repository.repo_classifier_user import RepositoryClassifierUser
+from src.infra.sqlalchemy.repository.repo_authorization import RepositoryAuthorization
 
 
 router = APIRouter()
@@ -51,7 +52,7 @@ def register_classifier(classifier_data: schemas_classifier_user.ClassifierUser,
 
     classifier_data = add_create_at_timestamp(classifier_data)
 
-    exist_auth = RepositoryClassifierUser(db).searchById(classifier_data.authorization_id)
+    exist_auth = RepositoryAuthorization(db).searchById(classifier_data.authorization_id)
 
     if not exist_auth:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Althorization not found!")
