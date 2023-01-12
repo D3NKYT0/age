@@ -46,7 +46,7 @@ def login(login_data: schemas_auth.LoginData, db: Session = Depends(get_db)):
     if super_user is None:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='Login or password is incorrect')
 
-    super_user = super_user.User  # recebendo a classe principal
+    super_user = super_user.SuperUser  # recebendo a classe principal
 
     invalid_password = hp.verificar_hash(password, super_user.password)
 
