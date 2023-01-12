@@ -23,7 +23,7 @@ router = APIRouter()
 @router.post('/email', status_code=status.HTTP_202_ACCEPTED, response_model=schemas_custom.Email, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["ti"])
 def send_email(email_data: schemas_custom.Email, background: BackgroundTasks, _ = Depends(get_super_user_logged), db: Session = Depends(get_db)):
 
-    if not check_authorization(db, _, ["system"]):
+    if not check_authorization(db, _, ["system"], True):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
     log_data = {"description": f"O usuario {_.User.name} enviou um email para \"{email_data.destination_email}\"", "create_at": None, "super_user_id": _.User.id}

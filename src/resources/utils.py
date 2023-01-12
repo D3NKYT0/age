@@ -12,8 +12,8 @@ def add_create_at_timestamp(data: object, is_log: bool = False) -> object:
     return data
 
 
-def check_authorization(db, user, authorization_list):
-    classifier_id = user.User.classified_as
+def check_authorization(db, user, authorization_list, super_user=False):
+    classifier_id = user.User.classified_as if not super_user else user.SuperUser.classified_as
     classifier_obj = RepositoryClassifierUser(db).searchById(classifier_id)
     authorization_id = classifier_obj.ClassifierUser.authorization_id
     for k, v in authotizations.items():
