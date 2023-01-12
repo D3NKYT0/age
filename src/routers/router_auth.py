@@ -37,7 +37,7 @@ def login(login_data: schemas_auth.LoginData, db: Session = Depends(get_db)):
     return schemas_auth.LoginSuccess(user=user, access_token=token)
 
 @router.post('/su', response_model=schemas_auth.LoginSuccess, status_code=status.HTTP_200_OK, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["auth"])
-def login(login_data: schemas_auth.LoginData, db: Session = Depends(get_db)):
+def superLogin(login_data: schemas_auth.LoginData, db: Session = Depends(get_db)):
 
     password, login = login_data.password, login_data.login
 

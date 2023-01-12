@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 
 from src.schemas import schemas_custom, schemas_users, schemas_super_user, schemas_super_user_logs, schemas_logs
 from src.jobs import cog
+from src.infra.providers import hash_provider as hp
 
 from src.resources.auth_utils import get_user_logged
 from src.resources.utils import check_authorization
@@ -49,7 +50,7 @@ def me(login: str, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
 
 @router.post('/super_user/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_super_user.SimpleSuperUser, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["ti"])
-def create_users(super_user: schemas_super_user.SuperUser, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
+def create_super_users(super_user: schemas_super_user.SuperUser, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
@@ -65,5 +66,6 @@ def create_users(super_user: schemas_super_user.SuperUser, _ = Depends(get_user_
     log_data = add_create_at_timestamp(schemas_logs.Logs(**log_data))
     RepositoryLogs(db).register(log_data)
 
+    super_user.password = hp.gerar_hash(super_user.password)
     super_user_created = RepositorySuperUser(db).register(super_user)
     return super_user_created
