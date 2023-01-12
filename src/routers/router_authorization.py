@@ -58,14 +58,11 @@ def register_auth(auth_data: schemas_authorization.Authorization, _ = Depends(ge
     if exist:
         raise HTTPException(status_code=status.HTTP_302_FOUND, detail="Already existing authorizarion!")
 
+    log_data = {"description": f"O usuario {_.User.name} criou uma autorização", "create_at": None, "super_user_id": _.User.id}
+    log_data = add_create_at_timestamp(schemas_super_user_logs.SuperUserLogs(**log_data))
+
     authorization_created = RepositoryAuthorization(db).register_authorization(auth_data)
 
-    log_data = {
-        'description': f"O usuario {_.User.name} criou uma autorização",
-        "create_at": "",
-        "super_user_id": _.User.id,
-    }
-    log_data = add_create_at_timestamp(schemas_super_user_logs.SuperUserLogs(log_data))
     RepositorySuperUserLogs(db).register(log_data)
 
     return authorization_created
