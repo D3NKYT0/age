@@ -75,9 +75,8 @@ def update_authorization(id: int, authorization: schemas_authorization.Authoriza
 
     authorization = add_create_at_timestamp(authorization, True)
 
-    # -- register log here --
-    # --
-    # -- end --
+    log_data = {"description": f"O usuario {_.User.name} editou uma autorização", "create_at": None, "super_user_id": _.User.id}
+    log_data = add_create_at_timestamp(schemas_super_user_logs.SuperUserLogs(**log_data))
 
     authorization_updated = RepositoryAuthorization(db).edit_authorization(id, authorization)
     authorization_updated.id = id
@@ -91,6 +90,9 @@ def delete_authorization(authorization_id: int, _ = Depends(get_user_logged) ,db
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
     authorization = add_create_at_timestamp(authorization, True)
+
+    log_data = {"description": f"O usuario {_.User.name} deletou uma autorização", "create_at": None, "super_user_id": _.User.id}
+    log_data = add_create_at_timestamp(schemas_super_user_logs.SuperUserLogs(**log_data))
 
     authorization = RepositoryAuthorization(db).remove_authorization(authorization_id)
     return authorization
