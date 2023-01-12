@@ -30,6 +30,8 @@ def show_authorization(id: int, _ = Depends(get_user_logged), db: Session = Depe
     if not authorization_located:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Authorization not exist!")
 
+    # rotas get nao geram registros de logs
+
     return authorization_located
 
 @router.get('/get/all', status_code=status.HTTP_200_OK, response_model=List[schemas_authorization.Authorization], tags=["authorizations"])
@@ -42,6 +44,8 @@ def show_all_authorization( _ = Depends(get_user_logged), db: Session = Depends(
 
     if not all_authorization:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="There are no authorizations located!")
+
+    # rotas get nao geram registros de logs
 
     return all_authorization
 
