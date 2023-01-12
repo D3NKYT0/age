@@ -33,7 +33,7 @@ def show_status_client(id: int, _ = Depends(get_user_logged), db: Session = Depe
 @router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_status_client.StatusClient], tags=["status_clients"])
 def show_all_status_client( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
-    if not check_authorization(db, ["root"]):
+    if not check_authorization(db, _, ["root"]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
     all_status_client = RepositoryStatusClient(db).show_all_status_client()

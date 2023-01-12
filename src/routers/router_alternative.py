@@ -18,7 +18,7 @@ router = APIRouter()
 @router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_alternative.SimpleAlternative, tags=["alternatives"])
 def show_alternative(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
-    if not check_authorization(db, ["root"]):
+    if not check_authorization(db, _, ["root"]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
     alternative_located = add_create_at_timestamp(alternative_located)
@@ -33,7 +33,7 @@ def show_alternative(id: int, _ = Depends(get_user_logged), db: Session = Depend
 @router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_alternative.SimpleAlternative], tags=["alternatives"])
 def show_all_alternative( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
-    if not check_authorization(db, ["root"]):
+    if not check_authorization(db, _, ["root"]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
     all_alternative = RepositoryAlternative(db).show_all_alternatives()

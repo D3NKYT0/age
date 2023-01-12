@@ -18,7 +18,7 @@ router = APIRouter()
 @router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_super_user.SimpleSuperUser, tags=["super_users"])
 def show_super_user(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
-    if not check_authorization(db, ["root"]):
+    if not check_authorization(db, _, ["root"]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
     super_user_located = add_create_at_timestamp(super_user_located)
@@ -33,7 +33,7 @@ def show_super_user(id: int, _ = Depends(get_user_logged), db: Session = Depends
 @router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_super_user.SimpleSuperUser], tags=["super_users"])
 def show_all_super_users( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
-    if not check_authorization(db, ["root"]):
+    if not check_authorization(db, _, ["root"]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
     all_super_users = RepositorySuperUser(db).show_all_super_users()

@@ -18,7 +18,7 @@ router = APIRouter()
 @router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_questions.SimpleQuestion, tags=["questions"])
 def show_question(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
-    if not check_authorization(db, ["root"]):
+    if not check_authorization(db, _, ["root"]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
     question_located = add_create_at_timestamp(question_located)
@@ -33,7 +33,7 @@ def show_question(id: int, _ = Depends(get_user_logged), db: Session = Depends(g
 @router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_questions.SimpleQuestion], tags=["questions"])
 def show_all_questions( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
-    if not check_authorization(db, ["root"]):
+    if not check_authorization(db, _, ["root"]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
     all_questions = RepositoryQuestions(db).show_all_questions()
