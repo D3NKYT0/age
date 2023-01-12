@@ -12,53 +12,58 @@ class RepositorySuperUser():
 
     def searchById(self, id: int):
         query = select(models_super_user.SuperUser).where(models_super_user.SuperUser.id == id)
-        user = self.db.execute(query).first()
-        return user
+        super_user = self.db.execute(query).first()
+        return super_user
 
-    def register(self, user: schemas_super_user.SuperUser):
+    def searchByLogin(self, login: str):
+        query = select(models_super_user.SuperUser).where(models_super_user.SuperUser.login == login)
+        super_user = self.db.execute(query).first()
+        return super_user
+
+    def register(self, super_user: schemas_super_user.SuperUser):
 
         # conversao do schema em model
-        db_user = models_super_user.SuperUser(
-            name = user.name,
-            create_at = user.create_at,
-            login = user.login,
-            password = user.password,
-            email = user.email,
-            classified_as = user.classified_as
+        db_super_user = models_super_user.SuperUser(
+            name = super_user.name,
+            create_at = super_user.create_at,
+            login = super_user.login,
+            password = super_user.password,
+            email = super_user.email,
+            classified_as = super_user.classified_as
         )
 
         # operações no banco de dados
-        self.db.add(db_user)
+        self.db.add(db_super_user)
         self.db.commit()
-        self.db.refresh(db_user)
+        self.db.refresh(db_super_user)
 
-        return db_user
+        return db_super_user
 
-    def edit(self, user_id: int, user: schemas_super_user.SuperUser):
+    def edit(self, super_user_id: int, super_user: schemas_super_user.SuperUser):
             update_statement = update(models_super_user.SuperUser).where(
-                models_super_user.SuperUser.id == user_id
+                models_super_user.SuperUser.id == super_user_id
             ).values(
-                name = user.name,
-                login = user.login,
-                password = user.password,
-                email = user.email,
-                classified_as = user.classified_as
+                name = super_user.name,
+                login = super_user.login,
+                password = super_user.password,
+                email = super_user.email,
+                classified_as = super_user.classified_as
             )
 
             self.db.execute(update_statement)
             self.db.commit()
-            return user
+            return super_user
 
     def show_all_users(self):
-        users = self.db.query(models_super_user.SuperUser).all()
-        return users
+        super_user = self.db.query(models_super_user.SuperUser).all()
+        return super_user
 
-    def remove(self, user_id: int):
-        statement = select(models_super_user.SuperUser).filter_by(id=user_id)
-        user = self.db.execute(statement).first()
+    def remove(self, super_user_id: int):
+        statement = select(models_super_user.SuperUser).filter_by(id=super_user_id)
+        super_user = self.db.execute(statement).first()
 
-        statement = delete(models_super_user.SuperUser).where(models_super_user.SuperUser.id == user_id)
+        statement = delete(models_super_user.SuperUser).where(models_super_user.SuperUser.id == super_user_id)
         self.db.execute(statement)
         self.db.commit()
 
-        return user
+        return super_user

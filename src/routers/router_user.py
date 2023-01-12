@@ -44,15 +44,15 @@ def show_all_users( _ = Depends(get_user_logged), db: Session = Depends(get_db))
     return all_users
 
 @router.post('/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_users.SimpleUser, tags=["users"])
-def create_users(lse: schemas_users.User, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
+def create_users(user: schemas_users.User, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
-    users = add_create_at_timestamp(users)
+    user = add_create_at_timestamp(user)
 
-    users_created = RepositoryUser(db).register(users)
-    return users_created
+    user_created = RepositoryUser(db).register(user)
+    return user_created
 
 @router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_users.SimpleUser, tags=["users"])
 def update_users(id: int, user: schemas_users.User, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
