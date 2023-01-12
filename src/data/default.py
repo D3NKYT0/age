@@ -63,5 +63,6 @@ authotizations = {
     "16": "admin",
     "17": "user",
     "18": "reader",
-    "19": "manager"
+    "19": "manager",
+    "25": "system"
 }
