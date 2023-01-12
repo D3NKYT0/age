@@ -20,7 +20,8 @@ class RepositorySuperUserLogs():
         # conversao do schema em model
         db_log = models_super_user_logs.SuperLog(
             description = log.description,
-            create_at = log.create_at
+            create_at = log.create_at,
+            super_user_id = log.super_user_id
         )
 
         # operações no banco de dados

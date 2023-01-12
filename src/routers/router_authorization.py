@@ -11,6 +11,7 @@ from src.resources.utils import check_authorization
 
 from src.schemas import schemas_authorization
 from src.infra.sqlalchemy.repository.repo_authorization import RepositoryAuthorization
+from src.infra.sqlalchemy.repository.repo_super_user_logs import RepositorySuperUserLogs
 
 
 
@@ -58,6 +59,14 @@ def register_auth(auth_data: schemas_authorization.Authorization, _ = Depends(ge
         raise HTTPException(status_code=status.HTTP_302_FOUND, detail="Already existing authorizarion!")
 
     authorization_created = RepositoryAuthorization(db).register_authorization(auth_data)
+
+    log_data = {
+        'description': f"O usuario {_.User.name} criou uma autorização",
+        "create_at": "",
+        "super_user_id": _.User.id,
+    }
+    log_data = add_create_at_timestamp(log_data)
+    RepositorySuperUserLogs(db).register(log_data)
 
     return authorization_created
 
