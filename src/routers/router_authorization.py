@@ -9,7 +9,7 @@ from src.infra.sqlalchemy.config.database import get_db
 from src.resources.auth_utils import get_user_logged
 from src.resources.utils import check_authorization
 
-from src.schemas import schemas_authorization
+from src.schemas import schemas_authorization, schemas_super_user_logs
 from src.infra.sqlalchemy.repository.repo_authorization import RepositoryAuthorization
 from src.infra.sqlalchemy.repository.repo_super_user_logs import RepositorySuperUserLogs
 
@@ -65,7 +65,7 @@ def register_auth(auth_data: schemas_authorization.Authorization, _ = Depends(ge
         "create_at": "",
         "super_user_id": _.User.id,
     }
-    log_data = add_create_at_timestamp(log_data)
+    log_data = add_create_at_timestamp(schemas_super_user_logs.SuperUserLogs(log_data))
     RepositorySuperUserLogs(db).register(log_data)
 
     return authorization_created
