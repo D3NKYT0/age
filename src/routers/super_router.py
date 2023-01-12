@@ -12,7 +12,7 @@ from src.schemas import schemas_custom, schemas_users, schemas_super_user, schem
 from src.jobs import cog
 from src.infra.providers import hash_provider as hp
 
-from src.resources.auth_utils import get_user_logged
+from src.resources.auth_utils import get_user_logged, get_super_user_logged
 from src.resources.utils import check_authorization
 from src.resources.utils import add_create_at_timestamp
 
@@ -21,7 +21,7 @@ router = APIRouter()
 
 
 @router.post('/email', status_code=status.HTTP_202_ACCEPTED, response_model=schemas_custom.Email, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["ti"])
-def send_email(email_data: schemas_custom.Email, background: BackgroundTasks, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
+def send_email(email_data: schemas_custom.Email, background: BackgroundTasks, _ = Depends(get_super_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["system"]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
