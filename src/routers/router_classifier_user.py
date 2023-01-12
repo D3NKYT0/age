@@ -43,7 +43,7 @@ def show_all_classifier_user( _ = Depends(get_user_logged), db: Session = Depend
 
     return all_classifier_user 
 
-@router.post('/classifier/', status_code=status.HTTP_201_CREATED, response_model=schemas_classifier_user.ClassifierUser, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["classifier_users"])
+@router.post('/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_classifier_user.ClassifierUser, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["classifier_users"])
 def register_classifier(classifier_data: schemas_classifier_user.ClassifierUser, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
