@@ -60,10 +60,9 @@ def register_auth(auth_data: schemas_authorization.Authorization, _ = Depends(ge
 
     log_data = {"description": f"O usuario {_.User.name} criou uma autorização", "create_at": None, "super_user_id": _.User.id}
     log_data = add_create_at_timestamp(schemas_super_user_logs.SuperUserLogs(**log_data))
+    RepositorySuperUserLogs(db).register(log_data)
 
     authorization_created = RepositoryAuthorization(db).register_authorization(auth_data)
-
-    RepositorySuperUserLogs(db).register(log_data)
 
     return authorization_created
 
@@ -77,6 +76,7 @@ def update_authorization(id: int, authorization: schemas_authorization.Authoriza
 
     log_data = {"description": f"O usuario {_.User.name} editou uma autorização", "create_at": None, "super_user_id": _.User.id}
     log_data = add_create_at_timestamp(schemas_super_user_logs.SuperUserLogs(**log_data))
+    RepositorySuperUserLogs(db).register(log_data)
 
     authorization_updated = RepositoryAuthorization(db).edit_authorization(id, authorization)
     authorization_updated.id = id
@@ -93,6 +93,7 @@ def delete_authorization(authorization_id: int, _ = Depends(get_user_logged) ,db
 
     log_data = {"description": f"O usuario {_.User.name} deletou uma autorização", "create_at": None, "super_user_id": _.User.id}
     log_data = add_create_at_timestamp(schemas_super_user_logs.SuperUserLogs(**log_data))
+    RepositorySuperUserLogs(db).register(log_data)
 
     authorization = RepositoryAuthorization(db).remove_authorization(authorization_id)
     return authorization
