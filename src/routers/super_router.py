@@ -26,7 +26,7 @@ def send_email(email_data: schemas_custom.Email, background: BackgroundTasks, _ 
     if not check_authorization(db, _, ["system"], True):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You do not have authorization to access!")
 
-    log_data = {"description": f"O usuario {_.User.name} enviou um email para \"{email_data.destination_email}\"", "create_at": None, "super_user_id": _.User.id}
+    log_data = {"description": f"O usuario {_.SuperUser.name} enviou um email para \"{email_data.destination_email}\"", "create_at": None, "super_user_id": _.SuperUser.id}
     log_data = add_create_at_timestamp(schemas_super_user_logs.SuperUserLogs(**log_data))
     RepositorySuperUserLogs(db).register(log_data)
 
