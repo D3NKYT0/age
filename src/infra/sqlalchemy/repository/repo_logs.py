@@ -20,6 +20,7 @@ class RepositoryLogs():
         # conversao do schema em model
         db_log = models_logs.Log(
             description = log.description,
+            user_id = log.user_id,
             create_at = log.create_at
         )
 

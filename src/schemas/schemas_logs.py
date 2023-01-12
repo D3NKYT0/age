@@ -7,7 +7,7 @@ class Logs(BaseModel):
     id: Optional[int] = None
     description: str
     create_at: Optional[dt]
-    id_user: Optional[int] = None
+    user_id: Optional[int] = None
 
     class Config:
         orm_mode = True
