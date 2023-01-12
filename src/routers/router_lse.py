@@ -1,4 +1,5 @@
 from fastapi import Depends, status, APIRouter, HTTPException
+from fastapi_limiter.depends import RateLimiter
 
 from sqlalchemy.orm import Session
 from typing import List
@@ -15,7 +16,7 @@ from src.infra.sqlalchemy.config.database import get_db
 router = APIRouter()
 
 
-@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_lse.SimpleLse, tags=["lse"])
+@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_lse.SimpleLse, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["lse"])
 def show_lse(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -30,7 +31,7 @@ def show_lse(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_db
 
     return lse_located
 
-@router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_lse.SimpleLse], tags=["lse"])
+@router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_lse.SimpleLse], dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["lse"])
 def show_all_lse( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -43,7 +44,7 @@ def show_all_lse( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     return all_lse
 
-@router.post('/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_lse.SimpleLse, tags=["lse"])
+@router.post('/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_lse.SimpleLse, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["lse"])
 def create_lse(lse: schemas_lse.Lse, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -54,7 +55,7 @@ def create_lse(lse: schemas_lse.Lse, _ = Depends(get_user_logged), db: Session =
     lse_created = RepositoryLse(db).register(lse)
     return lse_created
 
-@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_lse.SimpleLse, tags=["lse"])
+@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_lse.SimpleLse, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["lse"])
 def update_lse(id: int, lse: schemas_lse.Lse, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -71,7 +72,7 @@ def update_lse(id: int, lse: schemas_lse.Lse, _ = Depends(get_user_logged), db: 
 
     return lse_updated
 
-@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_lse.SimpleLse, tags=["lse"])
+@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_lse.SimpleLse, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["lse"])
 def delete_lse(lse_id: int, _ = Depends(get_user_logged) ,db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):

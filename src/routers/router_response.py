@@ -1,4 +1,5 @@
 from fastapi import Depends, status, APIRouter, HTTPException
+from fastapi_limiter.depends import RateLimiter
 
 from sqlalchemy.orm import Session
 from typing import List
@@ -15,7 +16,7 @@ from src.infra.sqlalchemy.config.database import get_db
 router = APIRouter()
 
 
-@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_response.SimpleResponse, tags=["responses"])
+@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_response.SimpleResponse, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["responses"])
 def show_response(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -30,7 +31,7 @@ def show_response(id: int, _ = Depends(get_user_logged), db: Session = Depends(g
 
     return response_located
 
-@router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_response.SimpleResponse], tags=["responses"])
+@router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_response.SimpleResponse], dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["responses"])
 def show_all_responses( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -43,7 +44,7 @@ def show_all_responses( _ = Depends(get_user_logged), db: Session = Depends(get_
 
     return all_responses
 
-@router.post('/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_response.SimpleResponse, tags=["responses"])
+@router.post('/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_response.SimpleResponse, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["responses"])
 def create_response(response: schemas_response.SimpleResponse, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -54,7 +55,7 @@ def create_response(response: schemas_response.SimpleResponse, _ = Depends(get_u
     response_created = RepositoryResponse(db).register(response)
     return response_created
 
-@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_response.SimpleResponse, tags=["responses"])
+@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_response.SimpleResponse, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["responses"])
 def update_response(id: int, response: schemas_response.Response, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -71,7 +72,7 @@ def update_response(id: int, response: schemas_response.Response, _ = Depends(ge
 
     return response_updated
 
-@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_response.SimpleResponse, tags=["responses"])
+@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_response.SimpleResponse, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["responses"])
 def delete_response(response_id: int, _ = Depends(get_user_logged) ,db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):

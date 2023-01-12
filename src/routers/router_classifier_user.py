@@ -16,7 +16,7 @@ from src.infra.sqlalchemy.repository.repo_authorization import RepositoryAuthori
 
 router = APIRouter()
 
-@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_classifier_user.ClassifierUser, tags=["classifier_users"])
+@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_classifier_user.ClassifierUser, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["classifier_users"])
 def show_classifier_user(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -31,7 +31,7 @@ def show_classifier_user(id: int, _ = Depends(get_user_logged), db: Session = De
 
     return classifier_user_located
 
-@router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_classifier_user.ClassifierUser], tags=["classifier_users"])
+@router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_classifier_user.ClassifierUser], dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["classifier_users"])
 def show_all_classifier_user( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -66,7 +66,7 @@ def register_classifier(classifier_data: schemas_classifier_user.ClassifierUser,
 
     return classifier_created
 
-@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_classifier_user.ClassifierUser, tags=["classifier_users"])
+@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_classifier_user.ClassifierUser, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["classifier_users"])
 def update_classifier_user(id: int, classifier_user: schemas_classifier_user.ClassifierUser, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -83,7 +83,7 @@ def update_classifier_user(id: int, classifier_user: schemas_classifier_user.Cla
 
     return classifier_user_updated
 
-@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_classifier_user.ClassifierUser, tags=["classifier_users"])
+@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_classifier_user.ClassifierUser, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["classifier_users"])
 def delete_classifier_user(classifier_user_id: int, _ = Depends(get_user_logged) ,db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):

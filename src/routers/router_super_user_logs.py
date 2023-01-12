@@ -1,4 +1,5 @@
 from fastapi import Depends, status, APIRouter, HTTPException
+from fastapi_limiter.depends import RateLimiter
 
 from sqlalchemy.orm import Session
 from typing import List
@@ -15,7 +16,7 @@ from src.infra.sqlalchemy.config.database import get_db
 router = APIRouter()
 
 
-@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_super_user_logs.SuperUserLogs, tags=["super_users_logs"])
+@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_super_user_logs.SuperUserLogs, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["super_users_logs"])
 def show_super_user_logs(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -30,7 +31,7 @@ def show_super_user_logs(id: int, _ = Depends(get_user_logged), db: Session = De
 
     return logs_super_user_located
 
-@router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_super_user_logs.SuperUserLogs], tags=["super_users_logs"])
+@router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_super_user_logs.SuperUserLogs], dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["super_users_logs"])
 def show_super_user_logs( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -43,7 +44,7 @@ def show_super_user_logs( _ = Depends(get_user_logged), db: Session = Depends(ge
 
     return all_logs_super_users
 
-@router.post('/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_super_user_logs.SuperUserLogs, tags=["super_users_logs"])
+@router.post('/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_super_user_logs.SuperUserLogs, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["super_users_logs"])
 def create_Logs_super_user(logs_super_user: schemas_super_user_logs.SuperUserLogs, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -54,7 +55,7 @@ def create_Logs_super_user(logs_super_user: schemas_super_user_logs.SuperUserLog
     logs_super_user_created = RepositorySuperUserLogs(db).register(logs_super_user)
     return logs_super_user_created
 
-@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_super_user_logs.SuperUserLogs, tags=["super_users_logs"])
+@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_super_user_logs.SuperUserLogs, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["super_users_logs"])
 def update_super_users_logs(id: int, super_user_logs: schemas_super_user_logs.SuperUserLogs, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -71,7 +72,7 @@ def update_super_users_logs(id: int, super_user_logs: schemas_super_user_logs.Su
 
     return logs_super_user_updated
 
-@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_super_user_logs.SuperUserLogs, tags=["super_users_logs"])
+@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_super_user_logs.SuperUserLogs, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["super_users_logs"])
 def delete_logs_super_users(logs_super_user_id: int, _ = Depends(get_user_logged) ,db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):

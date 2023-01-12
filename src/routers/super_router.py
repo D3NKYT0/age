@@ -48,7 +48,7 @@ def me(login: str, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
     return user.User
 
 
-@router.post('/super_user/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_super_user.SimpleSuperUser, tags=["ti"])
+@router.post('/super_user/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_super_user.SimpleSuperUser, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["ti"])
 def create_users(super_user: schemas_super_user.SuperUser, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):

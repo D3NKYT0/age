@@ -1,4 +1,5 @@
 from fastapi import Depends, status, APIRouter, HTTPException
+from fastapi_limiter.depends import RateLimiter
 
 from sqlalchemy.orm import Session
 from typing import List
@@ -15,7 +16,7 @@ from src.infra.sqlalchemy.config.database import get_db
 router = APIRouter()
 
 
-@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_status_client.StatusClient, tags=["status_clients"])
+@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_status_client.StatusClient, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["status_clients"])
 def show_status_client(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, ["root"]):
@@ -30,7 +31,7 @@ def show_status_client(id: int, _ = Depends(get_user_logged), db: Session = Depe
 
     return status_client_located
 
-@router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_status_client.StatusClient], tags=["status_clients"])
+@router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_status_client.StatusClient], dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["status_clients"])
 def show_all_status_client( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -43,7 +44,7 @@ def show_all_status_client( _ = Depends(get_user_logged), db: Session = Depends(
 
     return  all_status_client
 
-@router.post('/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_status_client.StatusClient, tags=["status_clients"])
+@router.post('/register/', status_code=status.HTTP_201_CREATED, response_model=schemas_status_client.StatusClient, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["status_clients"])
 def create_status_client(status_client: schemas_status_client.StatusClient, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -54,7 +55,7 @@ def create_status_client(status_client: schemas_status_client.StatusClient, _ = 
     status_client_created = RepositoryStatusClient(db).register(status_client)
     return status_client_created 
 
-@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_status_client.StatusClient, tags=["status_clients"])
+@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_status_client.StatusClient, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["status_clients"])
 def update_status_client(id: int, status_client: schemas_status_client.StatusClient, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -71,7 +72,7 @@ def update_status_client(id: int, status_client: schemas_status_client.StatusCli
 
     return status_client_updated
 
-@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_status_client.StatusClient, tags=["status_clients"])
+@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_status_client.StatusClient, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["status_clients"])
 def delete_status_client(status_client_id: int, _ = Depends(get_user_logged) ,db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):

@@ -17,7 +17,7 @@ from src.infra.sqlalchemy.repository.repo_logs import RepositoryLogs
 
 router = APIRouter()
 
-@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_authorization.Authorization, tags=["authorizations"])
+@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=schemas_authorization.Authorization, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["authorizations"])
 def show_authorization(id: int, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -34,7 +34,7 @@ def show_authorization(id: int, _ = Depends(get_user_logged), db: Session = Depe
 
     return authorization_located
 
-@router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_authorization.Authorization], tags=["authorizations"])
+@router.get('/get/all/', status_code=status.HTTP_200_OK, response_model=List[schemas_authorization.Authorization], dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["authorizations"])
 def show_all_authorization( _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -70,7 +70,7 @@ def register_auth(auth_data: schemas_authorization.Authorization, _ = Depends(ge
 
     return authorization_created
 
-@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_authorization.Authorization, tags=["authorizations"])
+@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=schemas_authorization.Authorization, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["authorizations"])
 def update_authorization(id: int, authorization: schemas_authorization.Authorization, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
@@ -87,7 +87,7 @@ def update_authorization(id: int, authorization: schemas_authorization.Authoriza
 
     return authorization_updated
 
-@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_authorization.Authorization, tags=["authorizations"])
+@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=schemas_authorization.Authorization, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["authorizations"])
 def delete_authorization(authorization_id: int, _ = Depends(get_user_logged) ,db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
