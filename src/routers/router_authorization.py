@@ -45,7 +45,7 @@ def show_all_authorization( _ = Depends(get_user_logged), db: Session = Depends(
 
     return all_authorization
 
-@router.post('/authorization', status_code=status.HTTP_201_CREATED, response_model=schemas_authorization.Authorization, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["authorizations"])
+@router.post('/register', status_code=status.HTTP_201_CREATED, response_model=schemas_authorization.Authorization, dependencies=[Depends(RateLimiter(times=2, seconds=5))], tags=["authorizations"])
 def register_auth(auth_data: schemas_authorization.Authorization, _ = Depends(get_user_logged), db: Session = Depends(get_db)):
 
     if not check_authorization(db, _, ["root"]):
